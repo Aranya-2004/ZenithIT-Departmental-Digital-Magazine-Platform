@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='magazine/style.css') }}" />
+  <title>IT Magazine – Flipbook</title>
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #00c3ff;
+      --dark: #0a0a1a;
+      --gradient: linear-gradient(135deg, #0f1b3d 0%, #1a2a6c 40%, #2a4078 70%, #0a0a1a 100%);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--gradient);
+      background-attachment: fixed;
+      font-family: 'Arial', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Flipbook Container */
+    .magazine-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .flipbook {
+      max-width: 90vw;
+      max-height: 80vh;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0, 195, 255, 0.3);
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 195, 255, 0.2);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 195, 255, 0.4);
+    }
+
+    .nav-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .flipbook {
+        max-width: 95vw;
+        max-height: 70vh;
+      }
+      .nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .flipbook {
+        max-width: 98vw;
+        max-height: 60vh;
+      }
+      .nav-buttons {
+        gap: 10px;
+      }
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="magazine-container">
+    <div class="flipbook">
+      <div class="hard">
+        <h1>Magazine</h1>
+        <small>~ Information Technology</small>
+      </div>
+      <div class="hard"></div>
+
+      <div>
+        <p><small>Start here</small></p>
+        <p><small>will be letter bro</small></p>
+      </div>
+
+      <div>
+        <img src="{{ url_for('static', filename='magazine/images/img-1.png') }}" alt="Page 1" />
+        <p><small>page-1</small></p>
+      </div>
+
+      <div>
+        <img src="{{ url_for('static', filename='magazine/images/img-2.png') }}" alt="Page 2" />
+        <p><small>page-2</small></p>
+      </div>
+
+      <div>
+        <img src="{{ url_for('static', filename='magazine/images/img-3.png') }}" alt="Page 3" />
+        <p><small>page-3</small></p>
+      </div>
+
+      <div>
+        <img src="{{ url_for('static', filename='magazine/images/img-4.png') }}" alt="Page 4" />
+        <p><small>page-4</small></p>
+      </div>
+
+      <div>
+        <img src="{{ url_for('static', filename='magazine/images/img-5.png') }}" alt="Page 5" />
+        <p><small>page-5</small></p>
+      </div>
+
+      <div class="hard"></div>
+      <div class="hard">
+        <h2>Thank You</h2>
+        <small>~ Pushpendu Da</small>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevBtn" title="Previous Page">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="nav-btn" id="nextBtn" title="Next Page">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Load jQuery & turn.js -->
+  <script src="{{ url_for('static', filename='magazine/jquery.js') }}"></script>
+  <script src="{{ url_for('static', filename='magazine/turn.js') }}"></script>
+
+  <!-- Initialize Flipbook + Responsive -->
+  <script>
+    $(function() {
+      // Responsive dimensions
+      function getDimensions() {
+        const width = Math.min(900, $(window).width() * 0.9);
+        const height = Math.min(600, $(window).height() * 0.8);
+        return { width, height };
+      }
+
+      const dims = getDimensions();
+      
+      $(".flipbook").turn({
+        width: dims.width,
+        height: dims.height,
+        autoCenter: true,
+        display: 'double',
+        gradients: true,
+        acceleration: true,
+        duration: 800
+      });
+
+      // Navigation Buttons
+      $("#prevBtn").click(function() {
+        $(".flipbook").turn("previous");
+      });
+
+      $("#nextBtn").click(function() {
+        $(".flipbook").turn("next");
+      });
+
+      // Resize on window resize
+      $(window).resize(function() {
+        const newDims = getDimensions();
+        $(".flipbook").turn("size", newDims.width, newDims.height);
+      });
+    });
+  </script>
+
+</body>
+</html>
