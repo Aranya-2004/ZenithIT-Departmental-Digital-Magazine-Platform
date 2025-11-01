@@ -8,32 +8,28 @@
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Tilt.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
 
     <style>
         :root {
-            --primary: #00c3ff;
-            --secondary: #6e48ff;
+            --primary: #00d4ff;
+            --secondary: #7c3aed;
+            --accent: #ff2e63;
             --dark: #0a0a1a;
-            --glass: rgba(10, 15, 35, 0.65);
+            --glass: rgba(10, 15, 35, 0.75);
             --light: #f0f4ff;
             --gradient: linear-gradient(135deg, #0f1b3d 0%, #1a2a6c 40%, #2a4078 70%, #0a0a1a 100%);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px; /* For fixed navbar */
-        }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -50,262 +46,268 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== SMOOTH SCROLL CONTAINER ===== */
-        .smooth-scroll {
-            scroll-behavior: smooth;
-        }
-
-        /* ===== INTRO ===== */
+        /* INTRO */
         #intro {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            text-align: center;
-            transition: opacity 1.2s ease;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999;
+            text-align: center; transition: opacity 1.2s ease;
         }
 
         #intro h1 {
             font-size: clamp(2.8rem, 9vw, 5.5rem);
-            background: linear-gradient(135deg, #00c3ff, #6e48ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            opacity: 0;
-            transform: translateY(40px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent;
+            opacity: 0; transform: translateY(40px);
             animation: fadeInUp 1.6s ease-out forwards;
         }
 
         #intro p {
-            color: #aaa;
-            font-size: 1.3rem;
-            margin-top: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1.6s ease-out 0.6s forwards;
+            color: #aaa; font-size: 1.3rem; margin-top: 1rem;
+            opacity: 0; animation: fadeInUp 1.6s ease-out 0.6s forwards;
         }
 
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== MAIN CONTENT ===== */
-        #main-content {
-            opacity: 0;
-            transition: opacity 1.5s ease;
-        }
+        #main-content { opacity: 0; transition: opacity 1.5s ease; }
 
-        /* ===== NAVBAR ===== */
+        /* NAVBAR */
         .navbar {
-            background: rgba(10, 15, 35, 0.9);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(0,195,255,0.2);
-            padding: 1rem 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
+            background: rgba(10, 15, 35, 0.9); backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,212,255,0.2); padding: 1rem 0;
+            z-index: 1000; transition: all 0.3s ease;
         }
 
         .navbar.scrolled {
-            padding: 0.5rem 0;
-            background: rgba(10, 15, 35, 0.95);
-            box-shadow: 0 8px 32px rgba(0,195,255,0.1);
+            padding: 0.5rem 0; background: rgba(10, 15, 35, 0.98);
+            box-shadow: 0 8px 32px rgba(0,212,255,0.15);
         }
 
         .navbar-brand {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            background: linear-gradient(135deg, #00c3ff, #6e48ff);
-            -webkit-background-clip: text;
-            color: transparent;
-            font-size: 1.7rem;
+            font-family: 'Orbitron', sans-serif; font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent; font-size: 1.7rem;
         }
 
         .nav-link {
-            color: #ddd !important;
-            font-weight: 500;
-            padding: 0.5rem 1rem !important;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            color: #ddd !important; font-weight: 500; padding: 0.5rem 1rem !important;
+            border-radius: 8px; transition: all 0.3s ease;
         }
 
         .nav-link:hover, .nav-link.active {
-            color: #00c3ff !important;
-            background: rgba(0,195,255,0.1);
+            color: var(--primary) !important; background: rgba(0,212,255,0.1);
         }
 
-        /* ===== HERO WITH PARTICLES ===== */
+        /* HERO – ENHANCED */
         .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            padding-top: 80px;
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; overflow: hidden; padding-top: 80px;
         }
 
         #particles-js {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 2rem;
-            max-width: 900px;
+            position: relative; z-index: 2; padding: 2rem; max-width: 1100px;
         }
 
         .hero h1 {
-            font-size: clamp(3.2rem, 10vw, 6.5rem);
-            text-shadow: 0 0 30px rgba(0,195,255,0.5);
-            margin-bottom: 1.2rem;
+            font-size: clamp(3.5rem, 11vw, 7.5rem);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent;
+            text-shadow: 0 0 50px rgba(0,212,255,0.6);
+            margin-bottom: 1rem;
+            animation: glow 2.5s ease-in-out infinite alternate;
         }
 
-        .hero p.lead {
-            font-size: 1.35rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            opacity: 0.92;
+        @keyframes glow {
+            from { text-shadow: 0 0 40px rgba(0,212,255,0.5); }
+            to { text-shadow: 0 0 80px rgba(0,212,255,0.9), 0 0 120px rgba(124,58,237,0.6); }
+        }
+
+        .hero .tagline {
+            font-size: 1.6rem; font-weight: 600; color: #00e0ff;
+            margin: 1.2rem 0; opacity: 0.95;
+        }
+
+        .hero .details {
+            font-size: 1.15rem; color: #ccc; max-width: 800px;
+            margin: 0 auto 2rem; line-height: 1.7; opacity: 0.88;
         }
 
         .btn-glow {
-            background: rgba(0,195,255,0.15);
-            border: 1.5px solid rgba(0,195,255,0.4);
-            color: white;
-            padding: 0.9rem 2.2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0,195,255,0.2);
+            background: rgba(0,212,255,0.15); border: 1.5px solid rgba(0,212,255,0.4);
+            color: white; padding: 1rem 2.5rem; border-radius: 50px;
+            font-weight: 600; transition: all 0.4s ease; backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0,212,255,0.2); font-size: 1.1rem;
         }
 
         .btn-glow:hover {
-            background: #00c3ff;
-            color: #000;
-            transform: translateY(-4px);
-            box-shadow: 0 0 35px rgba(0,195,255,0.6);
+            background: var(--primary); color: #000; transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0,212,255,0.7);
         }
 
-        /* ===== GLASS CARDS ===== */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(0,195,255,0.15);
-            border-radius: 22px;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-16px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,195,255,0.25);
-            border-color: #00c3ff;
-        }
-
-        .glass-card img {
-            height: 210px;
-            object-fit: cover;
-            transition: 0.6s ease;
-        }
-
-        .glass-card:hover img {
-            transform: scale(1.1);
-        }
-
-        /* ===== ACHIEVERS ===== */
-        .achiever-card {
-            position: relative;
-            border-radius: 22px;
-            overflow: hidden;
-            background: var(--glass);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(0,195,255,0.1);
-            transition: 0.5s ease;
-        }
-
-        .achiever-card:hover {
-            transform: scale(1.04);
-            border-color: #00c3ff;
-        }
-
-        .achiever-img {
-            height: 320px;
-            object-fit: cover;
-        }
-
-        .achiever-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(10,15,35,0.95));
-            padding: 2.2rem 1.6rem 1.6rem;
-        }
-
-        /* ===== SECTION TITLE ===== */
+        /* SECTION TITLE */
         .section-title {
-            font-size: 2.6rem;
-            background: linear-gradient(135deg, #00c3ff, #6e48ff);
-            -webkit-background-clip: text;
-            color: transparent;
-            position: relative;
-            display: inline-block;
-            margin-bottom: 3rem;
+            font-size: 2.6rem; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent; position: relative;
+            display: inline-block; margin-bottom: 3rem;
         }
 
         .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -14px;
-            left: 0;
-            width: 90px;
-            height: 6px;
-            background: #00c3ff;
-            border-radius: 3px;
-            box-shadow: 0 0 15px rgba(0,195,255,0.5);
+            content: ''; position: absolute; bottom: -14px; left: 0;
+            width: 90px; height: 6px; background: var(--primary);
+            border-radius: 3px; box-shadow: 0 0 15px rgba(0,212,255,0.5);
         }
 
-        /* ===== FOOTER ===== */
+        /* ABOUT & SPIRIT */
+        .about-section {
+            padding: 100px 0; background: rgba(0, 212, 255, 0.03);
+            border-top: 1px solid rgba(0,212,255,0.1); border-bottom: 1px solid rgba(0,212,255,0.1);
+        }
+
+        .about-card {
+            background: var(--glass); backdrop-filter: blur(18px);
+            border: 1px solid rgba(0,212,255,0.15); border-radius: 24px;
+            padding: 2.8rem 2.2rem; transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            height: 100%; box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+
+        .about-card:hover {
+            transform: translateY(-12px); box-shadow: 0 25px 60px rgba(0,212,255,0.25);
+            border-color: var(--primary);
+        }
+
+        .about-icon {
+            font-size: 3.2rem; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent; margin-bottom: 1.5rem; display: block;
+        }
+
+        .about-card h3 {
+            font-size: 1.8rem; margin-bottom: 1rem; color: #00e0ff;
+        }
+
+        .about-card p {
+            font-size: 1.05rem; opacity: 0.9; line-height: 1.8;
+        }
+
+        /* HOD'S DESK */
+        .hod-section {
+            padding: 120px 0 80px; background: linear-gradient(135deg, rgba(15,25,50,0.95), rgba(10,15,35,0.98));
+            backdrop-filter: blur(20px); border-top: 1px solid rgba(0,212,255,0.2);
+            border-bottom: 1px solid rgba(0,212,255,0.2); position: relative; overflow: hidden;
+        }
+
+        .hod-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(0,212,255,0.15), transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(124,58,237,0.1), transparent 50%);
+            z-index: -1;
+        }
+
+        .hod-img-float {
+            position: absolute; top: -85px; left: 34px; width: 245px; z-index: 10;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+        }
+
+        .hod-profile-img {
+            width: 100%; height: 220px; border-radius: 50%; object-fit: cover;
+            border: 7px solid rgba(0,212,255,0.8); box-shadow: 
+                0 0 40px rgba(0,212,255,0.7), 0 0 80px rgba(124,58,237,0.4), inset 0 0 30px rgba(0,0,0,0.4);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); background: #1a2a6c;
+        }
+
+        .hod-profile-img:hover {
+            transform: scale(1.08) rotate(5deg); box-shadow: 
+                0 0 60px rgba(0,212,255,1), 0 0 120px rgba(124,58,237,0.7);
+            border-color: var(--secondary);
+        }
+
+        .hod-profile-img.fallback {
+            background: #1a2a6c !important; display: flex; align-items: center;
+            justify-content: center; font-size: 4rem; color: var(--primary);
+            border: 7px dashed rgba(0,212,255,0.6) !important;
+        }
+
+        .hod-content-card {
+            background: rgba(15, 25, 50, 0.92); backdrop-filter: blur(24px);
+            border-radius: 32px; border: 1px solid rgba(0,212,255,0.3);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4); margin-top: 100px;
+            margin-left: 260px; padding: 2.5rem 3rem; transition: all 0.5s ease;
+        }
+
+        .hod-content-card:hover {
+            transform: translateY(-8px); box-shadow: 0 35px 90px rgba(0,212,255,0.4), 0 0 60px rgba(124,58,237,0.3);
+            border-color: var(--primary);
+        }
+
+        .hod-name {
+            font-size: 2.1rem; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; color: transparent; font-family: 'Orbitron', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .hod-title {
+            font-size: 1.15rem; color: #00e0ff; font-weight: 500; letter-spacing: 0.8px; margin-bottom: 1.5rem;
+        }
+
+        .hod-message {
+            font-size: 1.12rem; line-height: 1.9; color: #e0f7ff; font-style: italic; text-align: justify;
+        }
+
+        .hod-signature {
+            font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: var(--primary);
+            font-weight: 600; margin-top: 1.5rem;
+        }
+
+        .hod-signature small {
+            font-family: 'Inter', sans-serif; font-style: normal; font-size: 0.95rem; color: #aaa;
+        }
+
+        /* FOOTER */
         footer {
-            background: #0a0a1a;
-            border-top: 1px solid rgba(0,195,255,0.15);
-            padding: 3.5rem 0 2rem;
-            font-size: 0.95rem;
+            background: #0a0a1a; border-top: 1px solid rgba(0,212,255,0.15);
+            padding: 3.5rem 0 2rem; font-size: 0.95rem;
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .hod-content-card { margin-left: 240px; }
+        }
+
         @media (max-width: 992px) {
-            .hero h1 { font-size: 4.5rem; }
-            .section-title { font-size: 2.3rem; }
+            .hod-img-float { width: 180px; top: -60px; left: 20px; }
+            .hod-profile-img { height: 180px; }
+            .hod-content-card { margin-left: 200px; margin-top: 80px; padding: 2rem 2.5rem; }
+            .hod-name { font-size: 1.9rem; }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; }
-            .hero p.lead { font-size: 1.2rem; }
-            .glass-card img { height: 180px; }
-            .achiever-img { height: 280px; }
+            .hero h1 { font-size: 4.5rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            .hero .details { font-size: 1rem; }
+            .hod-img-float { position: relative; top: 0; left: 50%; transform: translateX(-50%);
+                width: 160px; margin-bottom: -80px; z-index: 10; }
+            .hod-profile-img { height: 160px; }
+            .hod-content-card { margin-left: 0; margin-top: 80px; text-align: center; padding: 2rem; }
+            .hod-message { text-align: center; }
         }
 
         @media (max-width: 576px) {
-            .hero h1 { font-size: 2.8rem; }
-            .btn-glow { padding: 0.7rem 1.6rem; font-size: 0.95rem; }
-            .navbar-brand { font-size: 1.4rem; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero .tagline { font-size: 1.2rem; }
+            .btn-glow { padding: 0.8rem 1.8rem; font-size: 1rem; }
+            .hod-img-float { width: 140px; }
+            .hod-profile-img { height: 140px; }
+            .hod-content-card { margin-top: 60px; padding: 1.5rem; }
+            .hod-name { font-size: 1.7rem; }
+            .hod-message { font-size: 1rem; }
         }
     </style>
 </head>
-<body class="smooth-scroll">
+<body>
 
 <!-- INTRO -->
 <div id="intro">
@@ -318,107 +320,105 @@
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="/">IT MAGAZINE</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="nav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Achievers</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Faculty</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Annual Magazine</a></li>
-            </ul>
+        <div class="container">
+            <a class="navbar-brand" href="/">IT MAGAZINE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/achievers/">Achievers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/faculty/">Faculty</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/magazine/">Annual Magazine</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-    <!-- HERO -->
+    </nav>
+
+    <!-- HERO – WITH TAGLINE & DETAILS -->
     <section class="hero" id="home">
         <div id="particles-js"></div>
         <div class="hero-content" data-aos="fade-up">
-            <h1>Magazine Name</h1>
-            <p class="lead">Where Code Meets Innovation • Building Tomorrow’s Tech Pioneers</p>
-            <a href="/magazine/" class="btn btn-glow">Explore Magazine</a>
+            <h1>TechPulse</h1>
+            
+            <p class="tagline" data-aos="fade-up" data-aos-delay="200">
+                Code • Innovate • Inspire
+            </p>
+
+            <p class="details" data-aos="fade-up" data-aos-delay="400">
+                Official Annual Magazine of <strong>Department of Information Technology</strong>, 
+                KGEC • First Time Launch in 2025 • A celebration of Engineering, Literature, and Innovation.
+            </p>
+
+            <a href="/magazine/" class="btn btn-glow mt-3" data-aos="zoom-in" data-aos-delay="600">
+                Explore Latest Edition
+            </a>
         </div>
     </section>
 
-    <!-- ARTICLES -->
-    <section class="py-5" id="articles">
+    <!-- ABOUT & SPIRIT -->
+    <section class="about-section">
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Latest Articles</h2>
+            <h2 class="section-title text-center" data-aos="fade-up">About TechPulse</h2>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="glass-card h-100">
-                        <img src="https://source.unsplash.com/random/600x400/?ai,blue" alt="AI">
-                        <div class="p-4">
-                            <h5>Edge AI: The Next Frontier</h5>
-                            <p class="text-muted small">Prof. A. Sen • 01 Nov 2025</p>
-                            <p>Real-time inference on microcontrollers...</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Read</a>
-                        </div>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="about-card">
+                        <i class="fas fa-book-open about-icon"></i>
+                        <h3>About the Magazine</h3>
+                        <p>
+                            <strong>TechPulse</strong> is the official annual magazine of the Department of Information Technology, KGEC. 
+                            Launched in 2020, it serves as a vibrant platform to showcase technical brilliance, research, innovation, 
+                            and the creative spirit of IT students. From cutting-edge algorithms to real-world projects, 
+                            every edition celebrates the journey of turning ideas into impact.
+                        </p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="glass-card h-100">
-                        <img src="https://source.unsplash.com/random/600x400/?cyber,security" alt="Cyber">
-                        <div class="p-4">
-                            <h5>Post-Quantum Cryptography</h5>
-                            <p class="text-muted small">Dr. R. Das • 30 Oct 2025</p>
-                            <p>Preparing for the quantum threat...</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Read</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="glass-card h-100">
-                        <img src="https://source.unsplash.com/random/600x400/?cloud,devops" alt="Cloud">
-                        <div class="p-4">
-                            <h5>Serverless in 2025</h5>
-                            <p class="text-muted small">S. Roy • 28 Oct 2025</p>
-                            <p>From AWS Lambda to edge functions...</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Read</a>
-                        </div>
+
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="about-card">
+                        <i class="fas fa-fire about-icon"></i>
+                        <h3>Spirit of TechPulse</h3>
+                        <p>
+                            We believe in <strong>curiosity over conformity</strong>, <strong>code over chaos</strong>, and 
+                            <strong>collaboration over competition</strong>. TechPulse is more than a magazine — 
+                            it’s a movement to inspire, connect, and empower the next generation of tech leaders. 
+                            Every page reflects passion, resilience, and the unbreakable IT spirit of KGEC.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ACHIEVERS -->
-    <section class="py-5">
-        <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">Achievers Spotlight</h2>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-4" data-aos="zoom-in">
-                    <div class="achiever-card">
-                        <img src="https://source.unsplash.com/random/400x500/?portrait,engineer,blue" class="achiever-img w-100" alt="Rohan">
-                        <div class="achiever-overlay">
-                            <h5>Rohan Sen</h5>
-                            <p class="small text-info">B.Tech 2021</p>
-                            <p class="small">SDE @ Google • 1.2 Cr</p>
-                        </div>
-                    </div>
+    <!-- HOD'S DESK -->
+    <section class="hod-section" data-aos="fade-up">
+        <div class="container-fluid px-4 px-md-5">
+            <h2 class="section-title text-center mb-5"
+                style="font-size: 3.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; color: transparent; font-family: 'Orbitron', sans-serif;">
+                From the HOD's Desk
+            </h2>
+
+            <div class="position-relative">
+                <div class="hod-img-float" data-tilt data-tilt-max="6" data-tilt-speed="400">
+                    <img src="{{ url_for('static', filename='faculty_image/partha_sarathi.jpg') }}" 
+                         alt="Dr. Partha Sarathi Banerjee" class="hod-profile-img"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/220?text=HOD'; this.classList.add('fallback')">
                 </div>
-                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="achiever-card">
-                        <img src="https://source.unsplash.com/random/400x500/?woman,developer,tech" class="achiever-img w-100" alt="Priya">
-                        <div class="achiever-overlay">
-                            <h5>Priya Das</h5>
-                            <p class="small text-info">B.Tech 2022</p>
-                            <p class="small">ML @ Microsoft • 3 IEEE Papers</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="achiever-card">
-                        <img src="https://source.unsplash.com/random/400x500/?student,coding" class="achiever-img w-100" alt="Arjun">
-                        <div class="achiever-overlay">
-                            <h5>Arjun Mitra</h5>
-                            <p class="small text-info">3rd Year</p>
-                            <p class="small">Google Hash Code Finalist</p>
-                        </div>
-                    </div>
+
+                <div class="hod-content-card">
+                    <h3 class="hod-name mb-2">Dr. Partha Sarathi Banerjee</h3>
+                    <p class="hod-title mb-4">Head of Department, Information Technology, KGEC</p>
+                    <p class="hod-message mb-4">
+                        "At KGEC IT, we are not just building engineers; we are crafting visionaries who will redefine the digital world. 
+                        From groundbreaking research to industry-leading placements, our department thrives on innovation and excellence. 
+                        TechPulse captures this spirit — a testament to the relentless pursuit of knowledge and the unbreakable bond between faculty and students. 
+                        Let these pages inspire you to code the future."
+                    </p>
+                    <p class="hod-signature">
+                        — Dr. Partha Sarathi Banerjee<br>
+                        <small class="text-muted">November 2025</small>
+                    </p>
                 </div>
             </div>
         </div>
@@ -427,7 +427,7 @@
     <!-- FOOTER -->
     <footer class="text-center">
         <div class="container">
-            <p>&copy; 2025 <strong>IT Magazine</strong>, KGEC. Engineered with <i class="fas fa-heart text-primary"></i> by IT Students.</p>
+            <p>© 2025 <strong>TechPulse</strong>, KGEC IT Magazine. Engineered with <i class="fas fa-heart text-primary"></i> by IT Students.</p>
         </div>
     </footer>
 
@@ -439,10 +439,8 @@
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <script>
-    // AOS
     AOS.init({ duration: 1100, once: true, easing: 'ease-out-cubic' });
 
-    // Intro → Main
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('intro').style.opacity = '0';
@@ -453,7 +451,6 @@
         }, 3000);
     });
 
-    // Navbar Scroll Effect
     window.addEventListener('scroll', () => {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 50) {
@@ -463,21 +460,24 @@
         }
     });
 
-    // Particles.js – Blue Theme
+    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+        max: 8, speed: 400, glare: true, "max-glare": 0.3,
+    });
+
     particlesJS('particles-js', {
         particles: {
             number: { value: 90, density: { enable: true, value_area: 800 } },
-            color: { value: ['#00c3ff', '#6e48ff', '#ffffff'] },
+            color: { value: ['#00d4ff', '#7c3aed', '#ffffff'] },
             shape: { type: 'circle' },
-            opacity: { value: 0.7, random: true, anim: { enable: true, speed: 1 } },
+            opacity: { value: 0.7, random: true },
             size: { value: 3, random: true },
-            line_linked: { enable: true, distance: 140, color: '#00c3ff', opacity: 0.25, width: 1 },
+            line_linked: { enable: true, distance: 140, color: '#00d4ff', opacity: 0.25, width: 1 },
             move: { enable: true, speed: 1.8, direction: 'none', random: false, straight: false, out_mode: 'out' }
         },
         interactivity: {
             detect_on: 'canvas',
-            events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
-            modes: { repulse: { distance: 90, duration: 0.4 }, push: { particles_nb: 4 } }
+            events: { onhover: { enable: true, mode: 'repulse' } },
+            modes: { repulse: { distance: 90, duration: 0.4 } }
         },
         retina_detect: true
     });

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty – TechPulse KGEC</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Tilt.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7c3aed;
+            --accent: #ff2e63;
+            --dark: #0a0a1a;
+            --glass: rgba(15, 25, 50, 0.82);
+            --light: #f0f4ff;
+            --gradient: linear-gradient(135deg, #0f1b3d 0%, #1a2a6c 40%, #2a4078 70%, #0a0a1a 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient);
+            background-attachment: fixed;
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particles */
+        #particles-js {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 15, 35, 0.95);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(0,212,255,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(10, 15, 35, 0.98);
+            box-shadow: 0 8px 32px rgba(0,212,255,0.15);
+        }
+
+        .navbar-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+            font-size: 1.8rem;
+        }
+
+        .nav-link {
+            color: #ddd !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 0.5rem 1rem !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary) !important;
+            background: rgba(0,212,255,0.1);
+        }
+
+        /* HERO – ENHANCED */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 140px 20px 100px;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(10,15,35,0.9), rgba(15,25,50,0.7));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.8rem, 11vw, 7.5rem);
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 60px rgba(0,212,255,0.6);
+            margin-bottom: 1.2rem;
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { text-shadow: 0 0 40px rgba(0,212,255,0.5); }
+            to { text-shadow: 0 0 90px rgba(0,212,255,0.9), 0 0 130px rgba(124,58,237,0.6); }
+        }
+
+        .hero .tagline {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #00e0ff;
+            margin: 1rem 0 1.5rem;
+            opacity: 0.95;
+        }
+
+        .hero .quote {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #c0e8ff;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1.5rem 2rem;
+            background: rgba(0,212,255,0.08);
+            border-left: 5px solid var(--primary);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        .hero .quote::before { content: '“'; font-size: 4rem; color: var(--primary); opacity: 0.6; }
+        .hero .quote::after { content: '”'; font-size: 4rem; color: var(--primary); opacity: 0.6; float: right; margin-top: -1rem; }
+
+        /* Stats */
+        .stats {
+            padding: 90px 0;
+            background: rgba(0,212,255,0.05);
+            border-top: 1px solid rgba(0,212,255,0.12);
+            border-bottom: 1px solid rgba(0,212,255,0.12);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.2rem;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 1px solid rgba(0,212,255,0.25);
+            transition: all 0.5s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(0,212,255,0.3);
+            border-color: var(--primary);
+        }
+
+        .stat-number {
+            font-size: 4.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Faculty Grid – Staggered Modern Layout */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .faculty-card {
+            background: var(--glass);
+            backdrop-filter: blur(22px);
+            border: 1px solid rgba(0,212,255,0.28);
+            border-radius: 28px;
+            padding: 2.8rem 2rem;
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .faculty-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,212,255,0.12), rgba(124,58,237,0.08));
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: -1;
+        }
+
+        .faculty-card:hover::before {
+            opacity: 1;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-16px) scale(1.04);
+            box-shadow: 0 35px 90px rgba(0,212,255,0.45), 0 0 70px rgba(124,58,237,0.25);
+            border-color: var(--primary);
+        }
+
+        .faculty-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid rgba(0,212,255,0.7);
+            margin: 0 auto 1.8rem;
+            box-shadow: 0 0 40px rgba(0,212,255,0.5);
+            transition: all 0.5s ease;
+        }
+
+        .faculty-image.fallback {
+            background: #1a2a6c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            color: var(--primary);
+            border: 6px dashed rgba(0,212,255,0.5);
+        }
+
+        .faculty-card:hover .faculty-image {
+            transform: scale(1.12);
+            box-shadow: 0 0 60px rgba(0,212,255,0.9);
+            border-color: var(--secondary);
+        }
+
+        .faculty-name {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.6rem;
+            text-align: center;
+        }
+
+        .faculty-position {
+            color: #00e0ff;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .faculty-expertise {
+            color: #d0e8ff;
+            font-size: 0.98rem;
+            line-height: 1.75;
+            text-align: center;
+        }
+
+        .faculty-expertise i {
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            font-size: 3.2rem;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 7px;
+            background: var(--primary);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0,212,255,0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 5rem; }
+            .hero .quote { font-size: 1.5rem; padding: 1.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 4rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            .hero .quote { font-size: 1.3rem; }
+            .faculty-image { width: 120px; height: 120px; }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 3.2rem; }
+            .hero .quote { font-size: 1.1rem; padding: 1rem; }
+            .faculty-card { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particles -->
+    <div id="particles-js"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">IT MAGAZINE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/magazine/">Articles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/achievers/">Achievers</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/faculty/">Faculty</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/magazine/">Annual Magazine</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+   <section class="hero">
+    <div class="container" data-aos="fade-up">
+        <h1>FACULTY</h1>
+        <p class="tagline">Mentors • Visionaries • Architects of Tomorrow</p>
+        <div class="quote" data-aos="fade-up" data-aos-delay="300">
+            It is the supreme art of the teacher to awaken joy in creative expression and knowledge.
+            <span class="author">— Albert Einstein</span>
+        </div>
+    </div>
+</section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="h5 mt-2">Expert Faculty</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-card">
+                        <div class="stat-number">60+</div>
+                        <div class="h5 mt-2">Research Papers</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="h5 mt-2">PhD Holders</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="stat-card">
+                        <div class="stat-number">8+</div>
+                        <div class="h5 mt-2">Live Projects</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Faculty Grid -->
+    <section class="py-5" style="position: relative; z-index: 1;">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Esteemed Faculty</h2>
+
+            <div class="faculty-grid">
+                <!-- Dr. Partha Sarathi Banerjee -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <img src="{{ url_for('static', filename='faculty_image/partha_sarathi.jpg') }}" 
+                         alt="Dr. Partha Sarathi Banerjee" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=HOD'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Dr. Partha Sarathi Banerjee</h4>
+                    <p class="faculty-position">HOD, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i> PhD in Soft Computing<br>
+                        <i class="fas fa-brain"></i> AI, Blockchain, Fuzzy Logic<br>
+                        <i class="fas fa-award"></i> 50+ Publications
+                    </p>
+                </div>
+
+                <!-- Prof. (Dr.) Malabika Sengupta -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="200" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/malabika_sengupta.jpg') }}" 
+                         alt="Prof. (Dr.) Malabika Sengupta" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=MS'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Prof. (Dr.) Malabika Sengupta</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-laptop-code"></i> Full Stack & Web Tech<br>
+                        <i class="fas fa-project-diagram"></i> System Design<br>
+                        <i class="fas fa-chalkboard-teacher"></i> Project Mentor
+                    </p>
+                </div>
+
+                <!-- Dr. Satyendra Nath Mandal -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="300" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/Satyendranath.jpg') }}" 
+                         alt="Dr. Satyendra Nath Mandal" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=SNM'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Dr. Satyendra Nath Mandal</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-brain"></i> Fuzzy Logic & Soft Computing<br>
+                        <i class="fas fa-chart-line"></i> Time Series Analysis<br>
+                        <i class="fas fa-file-alt"></i> 20+ IEEE Papers
+                    </p>
+                </div>
+
+                <!-- Mr. Iqbal Quereshi -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="400" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/iqbal_quereshi.png') }}" 
+                         alt="Mr. Iqbal Quereshi" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=IQ'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Mr. Iqbal Quereshi</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-shield-alt"></i> Network Security<br>
+                        <i class="fas fa-wifi"></i> IoT & Embedded Systems<br>
+                        <i class="fas fa-industry"></i> Industry Projects
+                    </p>
+                </div>
+
+                <!-- Dr. Manisha Barman -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="500" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/Manisha_burman.png') }}" 
+                         alt="Dr. Manisha Barman" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=MB'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Dr. Manisha Barman</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-robot"></i> AI & Deep Learning<br>
+                        <i class="fas fa-image"></i> Image Processing<br>
+                        <i class="fas fa-book-open"></i> Springer Publications
+                    </p>
+                </div>
+
+                <!-- Mr. Debabrata Chowdhury -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="600" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/Debabrata.png') }}" 
+                         alt="Mr. Debabrata Chowdhury" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=DC'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Mr. Debabrata Chowdhury</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-cloud"></i> Cloud Architecture<br>
+                        <i class="fas fa-database"></i> DBMS & Big Data<br>
+                        <i class="fas fa-cogs"></i> Software Engineering
+                    </p>
+                </div>
+
+                <!-- Sudipto Basak -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="700" data-tilt>
+                    <img src="#" 
+                         alt="Sudipto Basak" class="faculty-image">
+                    <h4 class="faculty-name">Sudipto Basak</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-code-branch"></i> DSA & Competitive Coding<br>
+                        <i class="fas fa-mobile-alt"></i> App Development<br>
+                        <i class="fas fa-chalkboard"></i> Coding Mentor
+                    </p>
+                </div>
+
+                <!-- Anusua Mazumder -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="800" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/anusua.jpeg') }}" 
+                         alt="Anusua Mazumder" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=AM'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Anusua Mazumder</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-link"></i> Blockchain & DApps<br>
+                        <i class="fas fa-microchip"></i> IoT & Embedded<br>
+                        <i class="fas fa-award"></i> 11+ Research Papers
+                    </p>
+                </div>
+
+                <!-- Suparna Saha -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="900" data-tilt>
+                    <img src="#" 
+                         alt="Suparna Saha" class="faculty-image">
+                    <h4 class="faculty-name">Suparna Saha</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-database"></i> Big Data & Hadoop<br>
+                        <i class="fas fa-chart-bar"></i> Data Visualization<br>
+                        <i class="fas fa-users"></i> Student Advisor
+                    </p>
+                </div>
+
+                <!-- Kaushik Mukherjee -->
+                <div class="faculty-card" data-aos="fade-up" data-aos-delay="1000" data-tilt>
+                    <img src="{{ url_for('static', filename='faculty_image/kaushik.jpg') }}" 
+                         alt="Kaushik Mukherjee" class="faculty-image"
+                         onerror="this.src='https://via.placeholder.com/140?text=KM'; this.classList.add('fallback')">
+                    <h4 class="faculty-name">Kaushik Mukherjee</h4>
+                    <p class="faculty-position">Faculty, Information Technology</p>
+                    <p class="faculty-expertise">
+                        <i class="fas fa-brain"></i> Deep Learning & NLP<br>
+                        <i class="fas fa-robot"></i> Robotics & Automation<br>
+                        <i class="fas fa-python"></i> AI Frameworks
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        AOS.init({ duration: 1200, once: true, easing: 'ease-out-cubic' });
+
+        // 3D Tilt
+        VanillaTilt.init(document.querySelectorAll(".faculty-card"), {
+            max: 6,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3,
+        });
+
+        // Particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 85, density: { enable: true, value_area: 800 } },
+                color: { value: ['#00d4ff', '#7c3aed', '#ffffff'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.65, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#00d4ff', opacity: 0.22, width: 1 },
+                move: { enable: true, speed: 1.6, direction: 'none', random: false, straight: false, out_mode: 'out' }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' } },
+                modes: { repulse: { distance: 100, duration: 0.4 } }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
