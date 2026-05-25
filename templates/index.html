@@ -305,6 +305,309 @@
             .hod-name { font-size: 1.7rem; }
             .hod-message { font-size: 1rem; }
         }
+        /* =========================================================
+   COMPLETE ANDROID RESPONSIVE FIX
+   ADD THIS AT THE VERY END OF YOUR CSS
+========================================================= */
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Prevent horizontal overflow */
+* {
+    max-width: 100%;
+}
+
+/* Better rendering on phones */
+body {
+    -webkit-text-size-adjust: 100%;
+    background-attachment: scroll;
+}
+
+/* ================= NAVBAR ================= */
+
+@media (max-width: 991px) {
+
+    .navbar {
+        padding: 0.7rem 0;
+    }
+
+    .navbar-brand {
+        font-size: 1.35rem;
+    }
+
+    .navbar-collapse {
+        background: rgba(10, 15, 35, 0.98);
+        border-radius: 16px;
+        padding: 1rem;
+        margin-top: 12px;
+        border: 1px solid rgba(0,212,255,0.15);
+        backdrop-filter: blur(14px);
+    }
+
+    .nav-link {
+        text-align: center;
+        padding: 0.9rem !important;
+        margin: 0.2rem 0;
+    }
+}
+
+/* ================= HERO ================= */
+
+@media (max-width: 992px) {
+
+    .hero {
+        min-height: auto;
+        padding-top: 120px;
+        padding-bottom: 70px;
+    }
+
+    .hero-content {
+        padding: 1rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.8rem, 14vw, 5rem);
+        line-height: 1.1;
+        word-break: break-word;
+    }
+
+    .hero .tagline {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        padding: 0 8px;
+    }
+
+    .hero .details {
+        font-size: 0.98rem;
+        line-height: 1.8;
+        padding: 0 5px;
+    }
+
+    .btn-glow {
+        width: 100%;
+        max-width: 320px;
+        padding: 0.95rem 1.2rem;
+        font-size: 1rem;
+    }
+}
+
+/* ================= INTRO ================= */
+
+@media (max-width: 768px) {
+
+    #intro h1 {
+        font-size: clamp(2rem, 10vw, 3.5rem);
+        padding: 0 15px;
+        line-height: 1.2;
+    }
+
+    #intro p {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+}
+
+/* ================= SECTION TITLES ================= */
+
+@media (max-width: 768px) {
+
+    .section-title {
+        font-size: 2rem !important;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* ================= ABOUT SECTION ================= */
+
+@media (max-width: 768px) {
+
+    .about-section {
+        padding: 70px 0;
+    }
+
+    .about-card {
+        padding: 2rem 1.4rem;
+        border-radius: 20px;
+    }
+
+    .about-icon {
+        font-size: 2.5rem;
+    }
+
+    .about-card h3 {
+        font-size: 1.45rem;
+    }
+
+    .about-card p {
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+}
+
+/* ================= HOD SECTION ================= */
+
+@media (max-width: 992px) {
+
+    .hod-section {
+        padding: 90px 0 60px;
+    }
+
+    .hod-img-float {
+        position: relative !important;
+        top: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+
+        width: 170px;
+        margin-bottom: -70px;
+        z-index: 20;
+    }
+
+    .hod-profile-img {
+        width: 170px;
+        height: 170px;
+    }
+
+    .hod-content-card {
+        margin-left: 0 !important;
+        margin-top: 70px !important;
+
+        padding: 2rem 1.5rem;
+        text-align: center;
+        border-radius: 24px;
+    }
+
+    .hod-name {
+        font-size: 1.7rem;
+        line-height: 1.4;
+    }
+
+    .hod-title {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .hod-message {
+        font-size: 1rem;
+        text-align: center;
+        line-height: 1.9;
+    }
+
+    .hod-signature {
+        font-size: 1.4rem;
+    }
+}
+
+/* ================= SMALL PHONES ================= */
+
+@media (max-width: 576px) {
+
+    .hero {
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+
+    .hero h1 {
+        font-size: 2.7rem !important;
+    }
+
+    .hero .tagline {
+        font-size: 1rem;
+    }
+
+    .hero .details {
+        font-size: 0.9rem;
+    }
+
+    .btn-glow {
+        font-size: 0.95rem;
+        padding: 0.85rem 1rem;
+    }
+
+    .about-card {
+        padding: 1.7rem 1.2rem;
+    }
+
+    .hod-img-float {
+        width: 140px;
+    }
+
+    .hod-profile-img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .hod-content-card {
+        padding: 1.6rem 1.1rem;
+    }
+
+    .hod-name {
+        font-size: 1.45rem;
+    }
+
+    .hod-message {
+        font-size: 0.94rem;
+        line-height: 1.8;
+    }
+
+    footer {
+        padding: 2rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* ================= EXTRA SMALL DEVICES ================= */
+
+@media (max-width: 400px) {
+
+    .hero h1 {
+        font-size: 2.2rem !important;
+    }
+
+    .section-title {
+        font-size: 1.6rem !important;
+    }
+
+    .hero .details,
+    .about-card p,
+    .hod-message {
+        font-size: 0.88rem;
+    }
+}
+
+/* ================= MOBILE PERFORMANCE ================= */
+
+@media (max-width: 768px) {
+
+    /* Reduce glow intensity */
+    .hero h1 {
+        animation: none;
+        text-shadow: 0 0 25px rgba(0,212,255,0.35);
+    }
+
+    /* Disable hover transforms on phones */
+    .about-card:hover,
+    .hod-content-card:hover,
+    .btn-glow:hover,
+    .hod-profile-img:hover {
+        transform: none !important;
+    }
+
+    /* Reduce particles lag */
+    #particles-js {
+        opacity: 0.45;
+    }
+}
     </style>
 </head>
 <body>
@@ -321,16 +624,22 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">IT MAGAZINE</a>
+            <a class="navbar-brand" href="/">ZenITh</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                      <li class="nav-item"><a class="nav-link" href="/magazine/">Articles</a></li>
                     <li class="nav-item"><a class="nav-link" href="/achievers/">Achievers</a></li>
                     <li class="nav-item"><a class="nav-link" href="/faculty/">Faculty</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/magazine/">Annual Magazine</a></li>
+                   
+                                        <li class="nav-item">
+    <a class="nav-link" href="/annual-magazine/">
+        Annual Magazine
+    </a>
+</li>
                 </ul>
             </div>
         </div>
@@ -338,18 +647,21 @@
 
     <!-- HERO – WITH TAGLINE & DETAILS -->
     <section class="hero" id="home">
+
         <div id="particles-js"></div>
         <div class="hero-content" data-aos="fade-up">
-            <h1>TechPulse</h1>
+            <h1>ZenITh</h1>
             
             <p class="tagline" data-aos="fade-up" data-aos-delay="200">
-                Code • Innovate • Inspire
+               whatever IT takes
             </p>
 
-            <p class="details" data-aos="fade-up" data-aos-delay="400">
-                Official Annual Magazine of <strong>Department of Information Technology</strong>, 
-                KGEC • First Time Launch in 2025 • A celebration of Engineering, Literature, and Innovation.
-            </p>
+<p class="details" data-aos="fade-up" data-aos-delay="400">
+    The official <strong>Annual Magazine</strong> of the 
+    <strong>Department of Information Technology</strong>, 
+    <strong>KGEC</strong> • First Edition — <strong>2026</strong> • 
+    A collection of memories, creativity, innovation, and voices that define our campus journey.
+</p>
 
             <a href="/magazine/" class="btn btn-glow mt-3" data-aos="zoom-in" data-aos-delay="600">
                 Explore Latest Edition
@@ -360,31 +672,38 @@
     <!-- ABOUT & SPIRIT -->
     <section class="about-section">
         <div class="container">
-            <h2 class="section-title text-center" data-aos="fade-up">About TechPulse</h2>
+            <h2 class="section-title text-center" data-aos="fade-up">About ZenITh</h2>
             <div class="row g-4">
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="about-card">
                         <i class="fas fa-book-open about-icon"></i>
                         <h3>About the Magazine</h3>
                         <p>
-                            <strong>TechPulse</strong> is the official annual magazine of the Department of Information Technology, KGEC. 
-                            Launched in 2020, it serves as a vibrant platform to showcase technical brilliance, research, innovation, 
-                            and the creative spirit of IT students. From cutting-edge algorithms to real-world projects, 
-                            every edition celebrates the journey of turning ideas into impact.
-                        </p>
+    <strong>ZenITh</strong> is the first-ever official magazine launched by the 
+    Department of <strong>Information Technology</strong> in 
+    <strong>May 2026</strong>. It stands as a symbol of creativity, innovation, 
+    and technical excellence among IT students. The magazine serves as a dynamic 
+    platform for showcasing ideas, articless, achievements, and emerging technologies. 
+    From insightful articles to visionary concepts, <strong>ZenITh</strong> reflects 
+    the evolving tech culture of the department. More than just a publication, it 
+    celebrates the spirit of learning, collaboration, and the journey of turning 
+    imagination into reality.
+</p>
                     </div>
                 </div>
 
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="about-card">
                         <i class="fas fa-fire about-icon"></i>
-                        <h3>Spirit of TechPulse</h3>
-                        <p>
-                            We believe in <strong>curiosity over conformity</strong>, <strong>code over chaos</strong>, and 
-                            <strong>collaboration over competition</strong>. TechPulse is more than a magazine — 
-                            it’s a movement to inspire, connect, and empower the next generation of tech leaders. 
-                            Every page reflects passion, resilience, and the unbreakable IT spirit of KGEC.
-                        </p>
+                        <h3>Spirit of ZenITh</h3>
+                       <p>
+    We believe in <strong>curiosity over conformity</strong>, 
+    <strong>vision over limitation</strong>, and 
+    <strong>collaboration over competition</strong>. 
+    <strong>ZenITh</strong> is not merely a magazine — it is a reflection of the ideas, ambition, and creative spirit that define the Department of Information Technology at KGEC. 
+    Crafted through innovation and driven by passion, every page captures stories of resilience, imagination, and the pursuit of excellence. 
+    More than a publication, <strong>ZenITh</strong> stands as a timeless expression of the evolving IT culture and the voices shaping its future.
+</p>
                     </div>
                 </div>
             </div>
@@ -401,7 +720,7 @@
 
             <div class="position-relative">
                 <div class="hod-img-float" data-tilt data-tilt-max="6" data-tilt-speed="400">
-                    <img src="{{ url_for('static', filename='faculty_image/partha_sarathi.jpg') }}" 
+                    <img src="{{ url_for('static', filename='faculty_image/Parthasarthi.jpeg') }}" 
                          alt="Dr. Partha Sarathi Banerjee" class="hod-profile-img"
                          onerror="this.onerror=null; this.src='https://via.placeholder.com/220?text=HOD'; this.classList.add('fallback')">
                 </div>
@@ -409,12 +728,12 @@
                 <div class="hod-content-card">
                     <h3 class="hod-name mb-2">Dr. Partha Sarathi Banerjee</h3>
                     <p class="hod-title mb-4">Head of Department, Information Technology, KGEC</p>
-                    <p class="hod-message mb-4">
-                        "At KGEC IT, we are not just building engineers; we are crafting visionaries who will redefine the digital world. 
-                        From groundbreaking research to industry-leading placements, our department thrives on innovation and excellence. 
-                        TechPulse captures this spirit — a testament to the relentless pursuit of knowledge and the unbreakable bond between faculty and students. 
-                        Let these pages inspire you to code the future."
-                    </p>
+                   <p class="hod-message mb-4">
+    “At the Department of Information Technology, KGEC, we believe that education extends beyond classrooms and laboratories — it lies in nurturing curiosity, creativity, and the confidence to innovate. 
+    <strong>ZenITh</strong> reflects the vibrant spirit of our students, their ideas, achievements, and aspirations. 
+    This magazine stands as a celebration of knowledge, collaboration, and the collective journey of learning that defines our department. 
+    May these pages inspire every reader to think beyond boundaries and contribute meaningfully to the ever-evolving world of technology.”
+</p>
                     <p class="hod-signature">
                         — Dr. Partha Sarathi Banerjee<br>
                         <small class="text-muted">November 2025</small>
@@ -427,7 +746,7 @@
     <!-- FOOTER -->
     <footer class="text-center">
         <div class="container">
-            <p>© 2025 <strong>TechPulse</strong>, KGEC IT Magazine. Engineered with <i class="fas fa-heart text-primary"></i> by IT Students.</p>
+            <p> © 2026 ZenITh · Department of Information Technology · KGEC</p>
         </div>
     </footer>
 
@@ -482,6 +801,99 @@
         retina_detect: true
     });
 </script>
+<!-- particles.js -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
+<script>
+
+particlesJS('particles-js', {
+
+    particles: {
+
+        number: {
+            value: 90,
+            density: {
+                enable: true,
+                value_area: 900
+            }
+        },
+
+        color: {
+            value: [
+                '#00d4ff',
+                '#7c3aed',
+                '#ffffff'
+            ]
+        },
+
+        shape: {
+            type: 'circle'
+        },
+
+        opacity: {
+            value: 0.65,
+            random: true
+        },
+
+        size: {
+            value: 3,
+            random: true
+        },
+
+        line_linked: {
+            enable: true,
+            distance: 140,
+            color: '#00d4ff',
+            opacity: 0.25,
+            width: 1
+        },
+
+        move: {
+            enable: true,
+            speed: 1.8,
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false
+        }
+    },
+
+    interactivity: {
+
+        detect_on: 'canvas',
+
+        events: {
+
+            onhover: {
+                enable: true,
+                mode: 'repulse'
+            },
+
+            onclick: {
+                enable: true,
+                mode: 'push'
+            },
+
+            resize: true
+        },
+
+        modes: {
+
+            repulse: {
+                distance: 100,
+                duration: 0.4
+            },
+
+            push: {
+                particles_nb: 4
+            }
+        }
+    },
+
+    retina_detect: true
+});
+
+</script>
 </body>
 </html>

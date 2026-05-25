@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magazine Flipbook</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+<!-- page-flip CDN fallback if local copy is missing -->
+<script>
+  window.__pfLoaded = false;
+</script>
+<script src="./page-flip.browser.js" onerror="loadPageFlipCDN()"></script>
+<script>
+function loadPageFlipCDN() {
+  var s = document.createElement('script');
+  s.src = 'https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js';
+  s.onload  = function(){ window.__pfLoaded = true; };
+  s.onerror = function(){ showFatalError('Could not load page-flip library. Check your internet connection.'); };
+  document.head.appendChild(s);
+}
+</script>
+
+<style>
+:root {
+    --gold: #c9a84c;
+    --ink: #0d0c0a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    background:
+        radial-gradient(circle at center, rgba(201,168,76,0.08), transparent 70%),
+        linear-gradient(135deg, #0a0907, #15120d, #050505);
+}
+
+/* ── HEADER ── */
+#header {
+    position: fixed; top: 0; left: 0; right: 0; height: 60px; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px;
+    background: rgba(0,0,0,0.88);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    backdrop-filter: blur(10px);
+}
+#logo { color: var(--gold); font-size: 28px; letter-spacing: 6px; font-family: 'Cormorant Garamond', serif; }
+#page-indicator { color: var(--gold); font-size: 18px; letter-spacing: 2px; }
+
+/* ── STAGE ── */
+#stage {
+    position: fixed; top: 60px; left: 0; right: 0; bottom: 70px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px 0; overflow: visible;
+}
+
+/* ── BOOK WRAPPER ── */
+#book-wrapper {
+    position: relative; width: 100%; height: 100%; max-width: 100%;
+    overflow: visible;
+    display: flex; align-items: center; justify-content: center;
+}
+
+#book,
+.stf__parent,
+.stf__wrapper {
+    width: auto !important; min-width: 0 !important;
+    height: 100%; max-width: none !important; max-height: 100%;
+    overflow: visible;
+}
+
+#book {
+    display: inline-flex;
+    position: relative; overflow: visible;
+    box-shadow: 0 30px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,168,76,0.1);
+}
+
+.page { background: #fff; overflow: hidden; }
+.page img {
+    width: 100%; height: 100%;
+    display: block; object-fit: contain; background: #fff;
+}
+
+/* broken-image placeholder */
+.page img.broken {
+    object-fit: none;
+    background: #1a1710;
+    border: 1px solid rgba(201,168,76,0.15);
+}
+
+/* ── NAV BUTTONS ── */
+.nav-btn {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 55px; height: 55px; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(0,0,0,0.7); color: var(--gold); font-size: 24px;
+    cursor: pointer; z-index: 90; transition: 0.25s;
+}
+.nav-btn:hover { transform: translateY(-50%) scale(1.08); background: rgba(201,168,76,0.1); }
+#prev-btn { left: 18px; }
+#next-btn { right: 18px; }
+
+/* ── BOTTOM BAR ── */
+#bottom-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; height: 70px;
+    display: flex; align-items: center; justify-content: center; gap: 20px;
+    background: rgba(0,0,0,0.92);
+    border-top: 1px solid rgba(201,168,76,0.15); z-index: 100;
+}
+.control-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: transparent; color: var(--gold); font-size: 18px; cursor: pointer;
+}
+#progress {
+    width: 450px; height: 4px;
+    background: rgba(201,168,76,0.15); border-radius: 3px; overflow: hidden; cursor: pointer;
+}
+#progress-fill {
+    width: 0%; height: 100%;
+    background: linear-gradient(to right, #b48a2d, #f0d37b);
+    transition: width 0.3s ease;
+}
+
+/* ── PATH CONFIG PANEL ── */
+#config-panel {
+    position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
+    background: rgba(10,9,7,0.97);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 8px; padding: 20px 28px; z-index: 200;
+    width: min(520px, 94vw); color: var(--gold);
+    font-family: 'Josefin Sans', sans-serif;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+}
+#config-panel h2 { font-size: 14px; letter-spacing: 3px; margin-bottom: 14px; opacity: 0.8; }
+#config-panel label { font-size: 11px; letter-spacing: 2px; opacity: 0.6; display: block; margin-bottom: 6px; }
+#config-panel input, #config-panel select {
+    width: 100%; background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.25); color: var(--gold);
+    padding: 8px 12px; font-size: 13px; border-radius: 4px;
+    font-family: monospace; margin-bottom: 14px; outline: none;
+}
+#config-panel input:focus { border-color: var(--gold); }
+.cfg-row { display: flex; gap: 12px; }
+.cfg-row input { flex: 1; }
+#apply-btn {
+    width: 100%; padding: 10px; background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4); color: var(--gold);
+    font-family: 'Josefin Sans', sans-serif; letter-spacing: 3px;
+    font-size: 12px; cursor: pointer; border-radius: 4px; transition: 0.2s;
+}
+#apply-btn:hover { background: rgba(201,168,76,0.25); }
+#dismiss-btn {
+    position: absolute; top: 12px; right: 14px;
+    background: none; border: none; color: var(--gold); font-size: 18px; cursor: pointer; opacity: 0.5;
+}
+#dismiss-btn:hover { opacity: 1; }
+
+/* ── ERROR TOAST ── */
+#error-toast {
+    display: none; position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%);
+    background: rgba(180,30,30,0.9); color: #fff;
+    padding: 10px 22px; border-radius: 6px; font-size: 13px; z-index: 300;
+    max-width: 80vw; text-align: center;
+}
+
+/* ── LOADING OVERLAY ── */
+#loader {
+    position: fixed; inset: 0; z-index: 250;
+    background: rgba(0,0,0,0.85);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+}
+#loader-text { color: var(--gold); font-size: 13px; letter-spacing: 3px; }
+#loader-bar-wrap { width: 260px; height: 3px; background: rgba(201,168,76,0.15); border-radius: 3px; overflow: hidden; }
+#loader-bar { height: 100%; width: 0%; background: linear-gradient(to right, #b48a2d, #f0d37b); transition: width 0.2s; }
+
+/* ── SETTINGS ICON ── */
+#settings-btn {
+    position: fixed; top: 15px; right: 80px; z-index: 110;
+    background: none; border: none; color: rgba(201,168,76,0.5);
+    font-size: 18px; cursor: pointer; transition: 0.2s;
+}
+#settings-btn:hover { color: var(--gold); }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+    #logo { font-size: 20px; }
+    .nav-btn { width: 42px; height: 42px; font-size: 18px; }
+    #progress { width: 180px; }
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+    <div id="logo">ZENITH</div>
+    <div id="page-indicator">– / –</div>
+</header>
+
+<button id="settings-btn" title="Configure image path">⚙</button>
+
+<!-- Path configuration panel -->
+<div id="config-panel">
+    <button id="dismiss-btn">✕</button>
+    <h2>PAGE IMAGE CONFIGURATION</h2>
+
+    <label>IMAGE FOLDER PATH (relative or absolute URL)</label>
+    <input type="text" id="cfg-path" value="./" placeholder="e.g. ./pages/ or /magazine/pages/ or https://cdn.example.com/pages/">
+
+    <label>FILENAME PATTERN</label>
+    <input type="text" id="cfg-pattern" value="page_{N}.jpg"
+           placeholder="page_{N}.jpg  —  {N} = zero-padded number">
+
+    <div class="cfg-row">
+        <div style="flex:1">
+            <label>TOTAL PAGES</label>
+            <input type="number" id="cfg-total" value="97" min="1" max="9999">
+        </div>
+        <div style="flex:1">
+            <label>ZERO-PAD DIGITS</label>
+            <input type="number" id="cfg-pad" value="4" min="1" max="6">
+        </div>
+        <div style="flex:1">
+            <label>START INDEX</label>
+            <input type="number" id="cfg-start" value="0" min="0">
+        </div>
+    </div>
+
+    <label>PAGE ASPECT RATIO (width ÷ height)</label>
+    <input type="text" id="cfg-aspect" value="0.7071" placeholder="0.7071 = A4 portrait">
+
+    <button id="apply-btn">▶ APPLY &amp; LOAD</button>
+</div>
+
+<!-- Loading overlay -->
+<div id="loader">
+    <div id="loader-text">PREPARING PAGES</div>
+    <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+</div>
+
+<div id="stage">
+    <button class="nav-btn" id="prev-btn">‹</button>
+    <div id="book-wrapper">
+        <div id="book"></div>
+    </div>
+    <button class="nav-btn" id="next-btn">›</button>
+</div>
+
+<div id="bottom-bar">
+    <button class="control-btn" id="first-btn">«</button>
+    <button class="control-btn" id="prev-bottom">‹</button>
+    <div id="progress"><div id="progress-fill"></div></div>
+    <button class="control-btn" id="next-bottom">›</button>
+    <button class="control-btn" id="last-btn">»</button>
+</div>
+
+<div id="error-toast"></div>
+
+<script>
+/* ─── helpers ─────────────────────────────────────────────── */
+function showFatalError(msg) {
+    var t = document.getElementById('error-toast');
+    t.textContent = msg; t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 8000);
+}
+
+function padNum(n, digits) {
+    return String(n).padStart(digits, '0');
+}
+
+function buildPages(folder, pattern, total, padDigits, startIdx) {
+    return Array.from({ length: total }, (_, i) => {
+        var num = startIdx + i;
+        var nStr = padNum(num, padDigits);
+        var filename = pattern.replace('{N}', nStr);
+        // also support {n} without padding
+        filename = filename.replace('{n}', num);
+        return folder + filename;
+    });
+}
+
+/* ─── state ───────────────────────────────────────────────── */
+var cfg = {
+    folder:    './',
+    pattern:   'page_{N}.jpg',
+    total:     97,
+    padDigits: 4,
+    startIdx:  0,
+    aspect:    0.7071
+};
+
+var pageFlip   = null;
+var currentPage = 0;
+var PAGES       = [];
+
+/* ─── config panel ────────────────────────────────────────── */
+function readConfig() {
+    cfg.folder    = document.getElementById('cfg-path').value.trim();
+    cfg.pattern   = document.getElementById('cfg-pattern').value.trim();
+    cfg.total     = parseInt(document.getElementById('cfg-total').value) || 97;
+    cfg.padDigits = parseInt(document.getElementById('cfg-pad').value)   || 4;
+    cfg.startIdx  = parseInt(document.getElementById('cfg-start').value) || 0;
+    cfg.aspect    = parseFloat(document.getElementById('cfg-aspect').value) || 0.7071;
+    // persist
+    try { localStorage.setItem('zenith_cfg', JSON.stringify(cfg)); } catch(_) {}
+}
+
+function loadSavedConfig() {
+    try {
+        var saved = localStorage.getItem('zenith_cfg');
+        if (saved) {
+            var s = JSON.parse(saved);
+            Object.assign(cfg, s);
+            document.getElementById('cfg-path').value    = cfg.folder;
+            document.getElementById('cfg-pattern').value = cfg.pattern;
+            document.getElementById('cfg-total').value   = cfg.total;
+            document.getElementById('cfg-pad').value     = cfg.padDigits;
+            document.getElementById('cfg-start').value   = cfg.startIdx;
+            document.getElementById('cfg-aspect').value  = cfg.aspect;
+        }
+    } catch(_) {}
+}
+
+document.getElementById('apply-btn').addEventListener('click', function() {
+    readConfig();
+    document.getElementById('config-panel').style.display = 'none';
+    reloadBook();
+});
+
+document.getElementById('dismiss-btn').addEventListener('click', function() {
+    document.getElementById('config-panel').style.display = 'none';
+});
+
+document.getElementById('settings-btn').addEventListener('click', function() {
+    var p = document.getElementById('config-panel');
+    p.style.display = (p.style.display === 'none') ? 'block' : 'none';
+});
+
+/* ─── render pages ────────────────────────────────────────── */
+function renderPages() {
+    PAGES = buildPages(cfg.folder, cfg.pattern, cfg.total, cfg.padDigits, cfg.startIdx);
+    var book = document.getElementById('book');
+    book.innerHTML = PAGES.map(function(src) {
+        return '<div class="page"><img src="' + src + '" loading="lazy" alt="Magazine page" onerror="this.classList.add(\'broken\')"></div>';
+    }).join('');
+}
+
+/* ─── preload first spread to verify paths ───────────────── */
+function preflightCheck(onOk, onFail) {
+    var src = PAGES[0];
+    var img = new Image();
+    img.onload  = onOk;
+    img.onerror = function() { onFail(src); };
+    img.src = src;
+}
+
+/* ─── init/destroy book ───────────────────────────────────── */
+function initBook(startPage) {
+    startPage = startPage || 0;
+    var book = document.getElementById('book');
+
+    // Wait for St (PageFlip) to be available
+    if (typeof St === 'undefined') {
+        setTimeout(function() { initBook(startPage); }, 150);
+        return;
+    }
+
+    pageFlip = new St.PageFlip(book, {
+        width:  595,
+        height: 842,
+        size:   'stretch',
+        autoSize: true,
+        minWidth:  260, maxWidth:  1400,
+        minHeight: 260, maxHeight: 2000,
+        usePortrait:         false,
+        showCover:           true,
+        mobileScrollSupport: false,
+        maxShadowOpacity:    0.5,
+        flippingTime:        850,
+        startPage:           startPage,
+        swipeDistance:       30,
+        drawShadow:          true,
+        clickEventForward:   true,
+        useMouseEvents:      true
+    });
+
+    pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+    pageFlip.update();
+
+    setTimeout(function() {
+        var parent = document.querySelector('.stf__parent');
+        if (parent) {
+            parent.style.margin    = 'auto';
+            parent.style.left      = '0';
+            parent.style.right     = '0';
+            parent.style.transform = 'none';
+        }
+    }, 100);
+
+    pageFlip.on('flip', function(e) {
+        currentPage = e.data;
+        updateUI();
+    });
+
+    updateUI();
+}
+
+function destroyBook() {
+    if (!pageFlip) return;
+    try { pageFlip.destroy(); } catch(_) {}
+    pageFlip = null;
+}
+
+function updateUI() {
+    document.getElementById('page-indicator').innerText =
+        (currentPage + 1) + ' / ' + cfg.total;
+    var pct = (currentPage / Math.max(cfg.total - 1, 1)) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+/* ─── loading overlay ─────────────────────────────────────── */
+function showLoader() {
+    document.getElementById('loader').style.display = 'flex';
+    document.getElementById('loader-bar').style.width = '0%';
+}
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+}
+function setLoaderProgress(p) {
+    document.getElementById('loader-bar').style.width = (p * 100) + '%';
+}
+
+/* ─── full reload flow ────────────────────────────────────── */
+function reloadBook() {
+    destroyBook();
+    showLoader();
+    renderPages();
+
+    // Animate loader bar while first few images load
+    var fakeProgress = 0;
+    var ticker = setInterval(function() {
+        fakeProgress = Math.min(fakeProgress + 0.04, 0.85);
+        setLoaderProgress(fakeProgress);
+    }, 80);
+
+    preflightCheck(
+        function() {
+            // First image loaded → looks good
+            clearInterval(ticker);
+            setLoaderProgress(1);
+            setTimeout(function() {
+                hideLoader();
+                initBook(0);
+            }, 300);
+        },
+        function(failedSrc) {
+            // First image failed
+            clearInterval(ticker);
+            hideLoader();
+            document.getElementById('config-panel').style.display = 'block';
+            showFatalError(
+                '⚠ Could not load: ' + failedSrc +
+                '\nPlease check the image path in ⚙ settings above.'
+            );
+            // Still try to init — maybe some pages exist
+            initBook(0);
+        }
+    );
+}
+
+/* ─── startup ─────────────────────────────────────────────── */
+window.addEventListener('load', function() {
+    loadSavedConfig();
+    reloadBook();
+});
+
+/* ─── resize ──────────────────────────────────────────────── */
+var resizeTimer;
+window.addEventListener('resize', function() {
+    if (!pageFlip) return;
+    clearTimeout(resizeTimer);
+    var saved = currentPage;
+    resizeTimer = setTimeout(function() {
+        destroyBook();
+        setTimeout(function() { initBook(saved); }, 80);
+    }, 200);
+});
+
+/* ─── navigation ──────────────────────────────────────────── */
+function safely(fn) { return function() { if (pageFlip) fn(); }; }
+
+document.getElementById('prev-btn').onclick    = safely(function() { pageFlip.flipPrev(); });
+document.getElementById('next-btn').onclick    = safely(function() { pageFlip.flipNext(); });
+document.getElementById('prev-bottom').onclick = safely(function() { pageFlip.flipPrev(); });
+document.getElementById('next-bottom').onclick = safely(function() { pageFlip.flipNext(); });
+document.getElementById('first-btn').onclick   = safely(function() { pageFlip.flip(0); });
+document.getElementById('last-btn').onclick    = safely(function() { pageFlip.flip(cfg.total - 1); });
+
+document.addEventListener('keydown', function(e) {
+    if (!pageFlip) return;
+    if (e.key === 'ArrowLeft')  pageFlip.flipPrev();
+    if (e.key === 'ArrowRight') pageFlip.flipNext();
+});
+
+document.getElementById('progress').addEventListener('click', function(e) {
+    if (!pageFlip) return;
+    var rect  = e.currentTarget.getBoundingClientRect();
+    var ratio = (e.clientX - rect.left) / rect.width;
+    pageFlip.flip(Math.round(ratio * (cfg.total - 1)));
+});
+</script>
+</body>
+</html>

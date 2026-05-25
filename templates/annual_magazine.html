@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Annual Magazine Archive | ZenITh KGEC</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <style>
+
+        :root{
+            --primary:#00d4ff;
+            --secondary:#7c3aed;
+            --accent:#ff2e63;
+            --dark:#07101f;
+            --glass:rgba(15,25,45,0.72);
+            --light:#f3f8ff;
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Inter',sans-serif;
+            background:
+                radial-gradient(circle at top left,#1d2b64 0%,transparent 30%),
+                radial-gradient(circle at bottom right,#7c3aed33 0%,transparent 30%),
+                linear-gradient(135deg,#050816 0%,#0d1730 40%,#101d45 70%,#050816 100%);
+            color:var(--light);
+            overflow-x:hidden;
+        }
+
+        /* Scrollbar */
+
+        ::-webkit-scrollbar{
+            width:8px;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background:linear-gradient(var(--primary),var(--secondary));
+            border-radius:10px;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+            background:rgba(5,10,25,0.92);
+            backdrop-filter:blur(18px);
+            border-bottom:1px solid rgba(0,212,255,0.12);
+            padding:14px 0;
+        }
+
+        .navbar-brand{
+            font-family:'Orbitron',sans-serif;
+            font-size:1.8rem;
+            font-weight:900;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            -webkit-background-clip:text;
+            color:transparent;
+        }
+
+        .nav-link{
+            color:#d7d7d7 !important;
+            margin-left:10px;
+            transition:0.3s ease;
+            border-radius:10px;
+            padding:8px 15px !important;
+        }
+
+        .nav-link:hover,
+        .nav-link.active{
+            color:var(--primary) !important;
+            background:rgba(0,212,255,0.08);
+        }
+
+        /* HERO */
+
+        .hero{
+            min-height:75vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .hero::before{
+            content:'';
+            position:absolute;
+            width:700px;
+            height:700px;
+            background:radial-gradient(circle,var(--primary),transparent 70%);
+            opacity:0.12;
+            top:-200px;
+            left:-200px;
+            animation:float 10s infinite alternate;
+        }
+
+        .hero::after{
+            content:'';
+            position:absolute;
+            width:500px;
+            height:500px;
+            background:radial-gradient(circle,var(--secondary),transparent 70%);
+            opacity:0.12;
+            bottom:-200px;
+            right:-200px;
+            animation:float2 12s infinite alternate;
+        }
+
+        @keyframes float{
+            from{transform:translateY(0);}
+            to{transform:translateY(50px);}
+        }
+
+        @keyframes float2{
+            from{transform:translateY(0);}
+            to{transform:translateY(-50px);}
+        }
+
+        .hero-content{
+            position:relative;
+            z-index:2;
+        }
+
+        .hero-badge{
+            display:inline-block;
+            padding:12px 25px;
+            border-radius:40px;
+            background:rgba(0,212,255,0.08);
+            border:1px solid rgba(0,212,255,0.2);
+            margin-bottom:25px;
+            color:#c8f4ff;
+            letter-spacing:1px;
+            text-transform:uppercase;
+            font-size:0.85rem;
+        }
+
+        .hero h1{
+            font-family:'Orbitron',sans-serif;
+            font-size:clamp(3.5rem,9vw,7rem);
+            font-weight:900;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            -webkit-background-clip:text;
+            color:transparent;
+            margin-bottom:25px;
+        }
+
+        .hero p{
+            max-width:850px;
+            margin:auto;
+            font-size:1.2rem;
+            color:#d7e8ff;
+            line-height:1.9;
+        }
+
+        /* SECTION */
+
+        .archive-section{
+            padding:120px 0;
+            position:relative;
+        }
+
+        .section-title{
+            font-size:3rem;
+            text-align:center;
+            margin-bottom:15px;
+            font-family:'Orbitron',sans-serif;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            -webkit-background-clip:text;
+            color:transparent;
+        }
+
+        .section-subtitle{
+            text-align:center;
+            max-width:700px;
+            margin:auto;
+            color:#b6c5ea;
+            margin-bottom:80px;
+            line-height:1.8;
+        }
+
+        /* GRID */
+
+        .magazine-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:2.5rem;
+        }
+
+        /* CARD */
+
+        .magazine-card{
+            position:relative;
+            background:var(--glass);
+            backdrop-filter:blur(18px);
+            border:1px solid rgba(0,212,255,0.12);
+            border-radius:30px;
+            overflow:hidden;
+            transition:0.5s ease;
+        }
+
+        .magazine-card:hover{
+            transform:translateY(-18px) scale(1.02);
+            box-shadow:
+                0 25px 60px rgba(0,212,255,0.15),
+                0 0 40px rgba(124,58,237,0.15);
+        }
+
+        .magazine-cover{
+            position:relative;
+            height:420px;
+            overflow:hidden;
+        }
+
+        .magazine-cover img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition:0.6s ease;
+        }
+
+        .magazine-card:hover .magazine-cover img{
+            transform:scale(1.08);
+        }
+
+        .edition-badge{
+            position:absolute;
+            top:18px;
+            right:18px;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            padding:8px 18px;
+            border-radius:30px;
+            color:white;
+            font-size:0.85rem;
+            font-weight:600;
+            box-shadow:0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .magazine-content{
+            padding:2rem;
+        }
+
+        .magazine-title{
+            font-size:1.6rem;
+            font-weight:700;
+            margin-bottom:12px;
+        }
+
+        .magazine-desc{
+            color:#b6c5ea;
+            line-height:1.8;
+            margin-bottom:25px;
+        }
+
+        /* BUTTONS */
+
+        .btn-custom{
+            padding:12px 22px;
+            border-radius:14px;
+            text-decoration:none;
+            font-weight:600;
+            transition:0.3s ease;
+            display:inline-flex;
+            align-items:center;
+            gap:10px;
+        }
+
+        .btn-read{
+            background:linear-gradient(135deg,var(--primary),#00a2ff);
+            color:#fff;
+        }
+
+        .btn-read:hover{
+            transform:translateY(-3px);
+            box-shadow:0 12px 30px rgba(0,212,255,0.3);
+            color:white;
+        }
+
+        .btn-download{
+            border:1px solid rgba(255,255,255,0.15);
+            color:#fff;
+            background:rgba(255,255,255,0.04);
+        }
+
+        .btn-download:hover{
+            background:rgba(255,255,255,0.08);
+            color:white;
+            transform:translateY(-3px);
+        }
+
+        .btn-row{
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        /* FOOTER */
+
+        footer{
+            padding:40px 0;
+            text-align:center;
+            border-top:1px solid rgba(255,255,255,0.08);
+            color:#9eb1d6;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:768px){
+
+            .hero{
+                min-height:65vh;
+                padding:120px 20px 80px;
+            }
+
+            .hero h1{
+                font-size:3.5rem;
+            }
+
+            .hero p{
+                font-size:1rem;
+            }
+
+            .section-title{
+                font-size:2.2rem;
+            }
+
+            .magazine-cover{
+                height:350px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
+        <div class="container">
+
+            <a class="navbar-brand" href="/">ZenITh</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+  <li class="nav-item"><a class="nav-link" href="/magazine/">Articles</a></li>
+       <li class="nav-item">
+                        <a class="nav-link" href="/achievers/">
+                            Achievers
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="/faculty/">
+                            Faculty
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/annual-magazine/">
+                            Annual Magazine
+                        </a>
+                    </li>
+
+                   
+
+               
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="container hero-content" data-aos="fade-up">
+
+            <div class="hero-badge">
+                <i class="fas fa-book-open"></i>
+                Digital Magazine Archive
+            </div>
+
+            <h1>ANNUAL MAGAZINE</h1>
+
+            <p>
+                Explore the yearly editions of ZenITh — a digital collection of innovation,
+                creativity, achievements, technical articles, and departmental memories.
+                Download and preserve every edition for future generations.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- ARCHIVE -->
+
+    <section class="archive-section">
+
+        <div class="container">
+
+            <h2 class="section-title" data-aos="fade-up">
+                Magazine Archive
+            </h2>
+
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                Every edition captures the spirit of innovation, collaboration,
+                and excellence from the Department of Information Technology.
+            </p>
+
+            <div class="magazine-grid">
+
+                <!-- CARD -->
+
+                <div class="magazine-card" data-aos="zoom-in">
+
+                    <div class="magazine-cover">
+
+                        <img src="{{ url_for('static', filename='magazine_covers/y2.png') }}" alt="2026 Magazine">
+
+                        <div class="edition-badge">
+                            2026 Edition
+                        </div>
+
+                    </div>
+
+                    <div class="magazine-content">
+
+                        <h3 class="magazine-title">
+                            ZenITh 2026
+                        </h3>
+
+                        <p class="magazine-desc">
+                            The inaugural edition featuring technical articles,
+                            faculty insights, student achievements, innovations,
+                            and department highlights.
+                        </p>
+
+                        <div class="btn-row">
+<a href="{{ url_for('static', filename='magazine/it_magazine.pdf') }}"
+   target="_blank"
+   class="btn-custom btn-read">
+
+    <i class="fas fa-book-reader"></i>
+    Read Now
+
+</a>
+
+                           <a href="{{ url_for('static', filename='magazine/it_magazine.pdf') }}"
+   download
+   class="btn-custom btn-download">
+
+    <i class="fas fa-download"></i>
+    Download
+
+</a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- FUTURE CARD EXAMPLE -->
+
+                <div class="magazine-card" data-aos="zoom-in" data-aos-delay="200">
+
+                    <div class="magazine-cover">
+
+                        <img src="{{ url_for('static', filename='magazine_covers/y1.png') }}" alt="Upcoming">
+
+                        <div class="edition-badge">
+                            Upcoming
+                        </div>
+
+                    </div>
+
+                    <div class="magazine-content">
+
+                        <h3 class="magazine-title">
+                            ZenITh 2027
+                        </h3>
+
+                        <p class="magazine-desc">
+                            Future editions will continue documenting innovation,
+                            achievements, research, and department activities.
+                        </p>
+
+                        <div class="btn-row">
+
+                            <a href="#"
+                               class="btn-custom btn-read">
+
+                                <i class="fas fa-clock"></i>
+                                Coming Soon
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        © 2026 ZenITh · Department of Information Technology · KGEC
+    </footer>
+
+    <!-- JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <script>
+
+        AOS.init({
+            duration:1200,
+            once:true
+        });
+
+    </script>
+
+</body>
+</html>

@@ -34,7 +34,6 @@
             position: relative;
         }
 
-        /* Particle Background */
         #particles-js {
             position: fixed;
             top: 0; left: 0;
@@ -44,38 +43,75 @@
         }
 
         /* Navbar */
-        .navbar {
-            background: rgba(10, 15, 35, 0.95);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(0,195,255,0.2);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
+/* NAVBAR */
 
-        .navbar.scrolled {
-            padding: 0.5rem 0;
-            background: rgba(10, 15, 35, 0.98);
-        }
+.navbar {
+    background: rgba(10, 15, 35, 0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,212,255,0.2);
+    padding: 1rem 0;
 
-        .navbar-brand {
-            background: linear-gradient(135deg, #00c3ff, #6e48ff);
-            -webkit-background-clip: text;
-            color: transparent;
-            font-weight: 900;
-            font-size: 1.8rem;
-        }
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
 
-        .nav-link {
-            color: #ddd !important;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+.navbar.scrolled {
+    padding: 0.5rem 0;
+    background: rgba(10, 15, 35, 0.98);
 
-        .nav-link:hover, .nav-link.active {
-            color: #00c3ff !important;
-        }
+    box-shadow: 0 8px 32px rgba(0,212,255,0.15);
+}
 
-        /* Hero */
+.navbar-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    -webkit-background-clip: text;
+    color: transparent;
+
+    font-size: 1.7rem;
+}
+
+.nav-link {
+    color: #ddd !important;
+    font-weight: 500;
+
+    padding: 0.5rem 1rem !important;
+
+    border-radius: 8px;
+
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary) !important;
+    background: rgba(0,212,255,0.1);
+    @media (max-width: 991px){
+
+    .navbar-collapse{
+        background: rgba(10,15,35,0.98);
+        border-radius: 16px;
+        padding: 1rem;
+        margin-top: 12px;
+        border: 1px solid rgba(0,212,255,0.15);
+        backdrop-filter: blur(14px);
+    }
+
+    .nav-link{
+        text-align:center;
+        margin:0.2rem 0;
+    }
+}
+}
+
+        /* ===== HERO WITH BUILDING BG ===== */
         .hero {
             position: relative;
             min-height: 100vh;
@@ -86,109 +122,130 @@
             padding: 120px 20px 80px;
             z-index: 1;
             overflow: hidden;
+
+            /* 👇 KGEC Building background */
+            background-image: url('/static/achievers_image/cwh63y47dmuwrhqijnuj.jpeg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
+        /* Dark gradient overlay — stronger at top/bottom, lighter in middle so building shows */
         .hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.58));
-            z-index: -1;
+            inset: 0;
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(5, 8, 25, 0.70) 0%,
+                    rgba(8, 12, 35, 0.65) 45%,
+                    rgba(5, 8, 25, 0.88) 100%
+                );
+            z-index: 0;
         }
 
-        .hero-content {
-            max-width: 1000px;
-            padding: 2rem;
+        /* Cyan scanline texture — subtle techy overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(0, 195, 255, 0.022) 3px,
+                rgba(0, 195, 255, 0.022) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .hero h1 {
-            font-size: clamp(4rem, 12vw, 7.5rem);
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Campus label badge */
+        .campus-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid rgba(0, 195, 255, 0.35);
+            border-radius: 30px;
+            padding: 0.45rem 1.2rem;
+            font-size: 0.82rem;
+            color: #a0d8f0;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            margin-bottom: 1.5rem;
+        }
+        .campus-badge i { color: var(--primary); font-size: 0.9rem; }
+
+        /* HERO TITLE */
+        .hero-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .hero-title span {
+            display: block;
+            font-weight: 900;
+            letter-spacing: 6px;
             background: linear-gradient(135deg, #00c3ff, #6e48ff);
             -webkit-background-clip: text;
             color: transparent;
-            text-shadow: 0 0 60px rgba(0,195,255,0.7);
-            margin-bottom: 1.2rem;
-            animation: glow 2.5s ease-in-out infinite alternate;
+        }
+        .hero-title .line1 { font-size: clamp(3.5rem, 10vw, 7rem); }
+        .hero-title .line2 { font-size: clamp(2.5rem, 7vw, 5.5rem); opacity: 0.9; }
+
+        .hero-divider {
+            width: 80px; height: 4px;
+            margin: 1.5rem auto;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00c3ff, #6e48ff);
+            box-shadow: 0 0 20px rgba(0,195,255,0.6);
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 50px rgba(0,195,255,0.6); }
-            to { text-shadow: 0 0 90px rgba(0,195,255,0.9), 0 0 130px rgba(110,72,255,0.7); }
-        }
+        .hero-tagline { font-size: 1.3rem; color: #ccc; margin-bottom: 0.5rem; letter-spacing: 0.5px; }
+        .hero-sub { font-size: 1.4rem; color: #00e0ff; font-weight: 600; margin-bottom: 2rem; }
 
-        .hero .lead {
-            font-size: 1.6rem;
-            font-weight: 500;
-            opacity: 0.95;
-            max-width: 800px;
-            margin: 0 auto 1.5rem;
-            line-height: 1.6;
-        }
-
-        .hero .sub-lead {
-            font-size: 1.4rem;
+        .hero-quote {
+            font-size: 1.2rem;
             color: #00e0ff;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            opacity: 0.92;
-        }
-
-        .hero .quote {
-            font-size: 1.45rem;
-            font-style: italic;
-            color: #00e0ff;
-            margin: 2.5rem auto;
-            max-width: 800px;
-            opacity: 0.92;
-            position: relative;
-            padding: 0 2.5rem;
+            max-width: 750px;
+            margin: 2rem auto;
             line-height: 1.8;
-            text-shadow: 0 0 15px rgba(0,195,255,0.3);
+            text-shadow: 0 2px 12px rgba(0,0,0,0.6);
         }
+        .quote-mark { font-size: 2rem; color: #6e48ff; opacity: 0.6; }
+        .quote-author { margin-top: 1rem; font-size: 0.95rem; color: #6e48ff; }
 
-        .hero .quote::before,
-        .hero .quote::after {
-            content: '"';
-            font-size: 5rem;
-            color: #6e48ff;
-            opacity: 0.35;
-            position: absolute;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-        }
-
-        .hero .quote::before { left: 0; top: -20px; }
-        .hero .quote::after { right: 0; bottom: -40px; }
-
-        .hero .quote-author {
-            font-size: 1.1rem;
-            color: #6e48ff;
-            font-weight: 600;
-            margin-top: 1rem;
-            display: block;
-            font-style: normal;
-        }
-
-        .btn-glow {
+        .hero-btn {
+            margin-top: 1.5rem;
             background: rgba(0,195,255,0.15);
             border: 1.5px solid rgba(0,195,255,0.4);
             color: white;
             padding: 1rem 2.5rem;
             border-radius: 50px;
             font-weight: 600;
-            transition: all 0.4s ease;
+            transition: 0.4s;
+            display: inline-block;
+            text-decoration: none;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0,195,255,0.2);
-            font-size: 1.15rem;
-            letter-spacing: 0.5px;
         }
-
-        .btn-glow:hover {
+        .hero-btn:hover {
             background: #00c3ff;
             color: #000;
             transform: translateY(-5px);
-            box-shadow: 0 0 40px rgba(0,195,255,0.8);
+            box-shadow: 0 0 30px rgba(0,195,255,0.8);
         }
 
         /* Stats */
@@ -200,128 +257,16 @@
             position: relative;
             z-index: 1;
         }
-
         .stat-card {
-            text-align: center;
-            padding: 2rem;
+            text-align: center; padding: 2rem;
             background: rgba(15, 25, 50, 0.6);
             backdrop-filter: blur(12px);
             border-radius: 20px;
             border: 1px solid rgba(0,195,255,0.2);
             transition: all 0.4s ease;
         }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0,195,255,0.3);
-        }
-
-        .stat-number {
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #00c3ff, #6e48ff);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        /* Achiever Cards */
-        .achiever-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0,195,255,0.25);
-            border-radius: 24px;
-            padding: 2.5rem;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .achiever-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(0,195,255,0.1), rgba(110,72,255,0.1));
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-        }
-
-        .achiever-card:hover::before {
-            opacity: 1;
-        }
-
-        .achiever-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 30px 80px rgba(0,195,255,0.4), 0 0 60px rgba(110,72,255,0.2);
-            border-color: #00c3ff;
-        }
-
-        .achiever-image {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid rgba(0,195,255,0.6);
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 0 30px rgba(0,195,255,0.4);
-            transition: all 0.4s ease;
-        }
-
-        .achiever-image.fallback {
-            background: #1a2a6c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: #00c3ff;
-            border: 5px dashed rgba(0,195,255,0.4);
-        }
-
-        .achiever-card:hover .achiever-image {
-            transform: scale(1.1);
-            box-shadow: 0 0 50px rgba(0,195,255,0.7);
-        }
-
-        .rank-badge {
-            background: linear-gradient(135deg, #00c3ff, #6e48ff);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-block;
-            box-shadow: 0 5px 15px rgba(0,195,255,0.3);
-        }
-
-        .gold-badge {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #000;
-        }
-
-        .year-badge {
-            background: rgba(0,195,255,0.25);
-            color: #00c3ff;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(0,195,255,0.4);
-            display: inline-block;
-        }
-
-        .achievement {
-            color: #00e0ff;
-            font-weight: 600;
-            margin: 0.6rem 0;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .achievement i {
-            color: #6e48ff;
-            margin-right: 8px;
-        }
+        .stat-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,195,255,0.3); }
+        .stat-number { font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, #00c3ff, #6e48ff); -webkit-background-clip: text; color: transparent; }
 
         /* Section Title */
         .section-title {
@@ -333,52 +278,617 @@
             display: inline-block;
             margin-bottom: 3rem;
         }
-
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -14px;
-            left: 0;
-            width: 90px;
-            height: 6px;
+            bottom: -14px; left: 0;
+            width: 90px; height: 6px;
             background: #00c3ff;
             border-radius: 3px;
             box-shadow: 0 0 15px rgba(0,195,255,0.5);
         }
 
+        /* Spotlight */
+        .spotlight-highlight {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin: 8px 0 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #00c3ff, #6e48ff, #00e0ff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 3s linear infinite;
+        }
+        @keyframes gradientFlow {
+            0%   { background-position: 0%   center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Avatar */
+        .spotlight-avatar { display: flex; justify-content: center; padding: 20px; }
+        .avatar-circle {
+            position: relative;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #f0f0f0;
+        }
+        .avatar-circle:hover { transform: scale(1.1) rotate(3deg); box-shadow: 0 15px 35px rgba(0,0,0,0.2); border-color: #007bff; }
+        .avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter 0.3s ease; }
+        .avatar-circle::after {
+            content: ""; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+            transform: skewX(-25deg);
+            transition: 0.7s;
+        }
+        .avatar-circle:hover::after { left: 125%; }
+
+        /* Spotlight card */
+        .spotlight-section { padding: 100px 0; text-align: center; position: relative; z-index: 1; }
+        .spotlight-card {
+            background: rgba(15,25,50,0.85);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(0,212,255,0.25);
+            max-width: 750px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,212,255,0.15), 0 0 40px rgba(124,58,237,0.1);
+            transition: all 0.4s ease;
+        }
+        .spotlight-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0,212,255,0.3), 0 0 60px rgba(124,58,237,0.25);
+        }
+        .spotlight-name { font-size: 1.9rem; font-weight: 700; color: white; }
+        .spotlight-batch { color: #00d4ff; font-size: 0.9rem; }
+        .spotlight-role { display: inline-block; border: 1px solid gold; padding: 6px 14px; border-radius: 20px; color: gold; font-size: 0.85rem; margin: 10px 0; }
+        .metrics { display: flex; justify-content: center; gap: 1rem; }
+        .metric-box { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); border-radius: 10px; padding: 0.6rem 1.2rem; color: #00d4ff; }
+        .metric-value { font-weight: 700; }
+        .pulsing { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,212,255,0.7); } 70% { box-shadow: 0 0 0 15px rgba(0,212,255,0); } 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0); } }
+        .animate-in { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s ease-out forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        .journey-container { perspective: 1000px; margin: 25px 0; }
+        .journey-text {
+            color: #94a3b8; font-size: 1rem; line-height: 1.8;
+            text-align: center; max-width: 90%; margin: 0 auto; padding: 15px;
+            border-radius: 12px; background: rgba(255,255,255,0.03);
+            filter: blur(1px); opacity: 0.7; transform: scale(0.98);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: default;
+        }
+        .spotlight-card:hover .journey-text { filter: blur(0); opacity: 1; transform: scale(1); color: #e2e8f0; background: rgba(0,212,255,0.05); }
+        .journey-text strong { color: #00d4ff; font-weight: 600; transition: 0.3s; }
+
+        /* Achievers slider */
+        .achievers-section { padding: 100px 0; position: relative; z-index: 1; }
+        .section-label { font-size: 0.75rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+        .section-desc { font-size: 1.1rem; color: #ccc; margin-bottom: 3rem; max-width: 600px; }
+        .achievers-track-wrap { overflow: hidden; margin: 3rem 0; }
+        .achievers-track { display: flex; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+        .achiever-slide { flex-shrink: 0; }
+        .achiever-card {
+            background: rgba(15,25,50,0.8); backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,212,255,0.2); border-radius: 20px;
+            padding: 2rem; margin: 0 10px; min-height: 400px;
+            transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden;
+        }
+        .achiever-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(110,72,255,0.05));
+            opacity: 0; transition: opacity 0.4s ease; z-index: -1;
+        }
+        .achiever-card:hover::before { opacity: 1; }
+        .achiever-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,212,255,0.3); border-color: #00d4ff; }
+        .card-header-band { height: 6px; border-radius: 20px 20px 0 0; }
+        .card-header-band.gold   { background: linear-gradient(90deg, #ffd700, #ffed4e); }
+        .card-header-band.silver { background: linear-gradient(90deg, #c0c0c0, #e8e8e8); }
+        .card-header-band.bronze { background: linear-gradient(90deg, #cd7f32, #d4a574); }
+        .card-body-inner { padding: 1.5rem 0; }
+        .card-top { display: flex; align-items: center; margin-bottom: 1.5rem; }
+        .avatar-wrap { position: relative; margin-right: 1rem; }
+        .avatar {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: bold; font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(0,212,255,0.3);
+            background-repeat: no-repeat; background-size: cover; background-position: center;
+        }
+        .badge-medal {
+            position: absolute; bottom: -5px; right: -5px;
+            width: 24px; height: 24px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.8rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .badge-gold   { background: #ffd700; }
+        .badge-silver { background: #c0c0c0; }
+        .badge-bronze { background: #cd7f32; }
+        .badge-default{ background: #666; }
+        .card-info { flex: 1; }
+        .card-name { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+        .card-batch { font-size: 0.8rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .card-company { font-size: 0.9rem; color: #ccc; }
+        .card-company i { color: var(--primary); margin-right: 5px; }
+        .card-achievement { font-size: 0.95rem; color: #ddd; line-height: 1.6; margin-bottom: 1rem; }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .tag { background: rgba(0,212,255,0.1); color: #00d4ff; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.75rem; font-weight: 500; border: 1px solid rgba(0,212,255,0.2); }
+        .card-footer-row { text-align: right; }
+        .card-btn { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; }
+        .card-btn:hover { color: #fff; text-shadow: 0 0 10px rgba(0,212,255,0.5); }
+
+        .slider-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; }
+        .slider-btn { width: 50px; height: 50px; border-radius: 50%; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); color: #00d4ff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 1.2rem; }
+        .slider-btn:hover { background: #00d4ff; color: #000; transform: scale(1.1); }
+        .slider-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+        .slider-dots { display: flex; gap: 0.5rem; }
+        .slider-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s ease; }
+        .slider-dot.active { background: #00d4ff; transform: scale(1.3); }
+
+        /* Companies */
+        .companies-section { position: relative; z-index: 1; padding: 80px 0; }
+        .logos-track { overflow: hidden; background: rgba(0,212,255,0.05); border-top: 1px solid rgba(0,212,255,0.15); border-bottom: 1px solid rgba(0,212,255,0.15); }
+        .logos-inner { display: flex; animation: scroll 30s linear infinite; }
+        .logo-pill { flex-shrink: 0; padding: 1rem 2rem; margin: 0 1rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(0,212,255,0.2); border-radius: 50px; color: #fff; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; backdrop-filter: blur(10px); }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Modal */
+        .achiever-modal .modal-content { background: rgba(10,15,35,0.95); border: 1px solid rgba(0,212,255,0.2); }
+        .achiever-modal .modal-header { border-bottom: 1px solid rgba(0,212,255,0.2); }
+        .achiever-modal .modal-title { color: #fff; }
+        .achiever-modal .btn-close { filter: invert(1); }
+        .achiever-modal .modal-body { color: #ddd; }
+        .modal-profile-row { display: flex; align-items: center; margin-bottom: 2rem; }
+        .modal-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #00d4ff, #7c3aed); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.5rem; margin-right: 1.5rem; box-shadow: 0 0 30px rgba(0,212,255,0.4); }
+        .modal-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .detail-item { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.1); border-radius: 8px; padding: 1rem; }
+        .detail-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .detail-val { font-size: 1rem; color: #fff; font-weight: 600; }
+        .detail-val.highlight { color: var(--primary); }
+
         /* Responsive */
-        @media (max-width: 992px) {
-            .hero h1 { font-size: 5.5rem; }
-            .hero .lead { font-size: 1.4rem; }
-            .stat-number { font-size: 3rem; }
-        }
-
         @media (max-width: 768px) {
-            .hero h1 { font-size: 4rem; }
-            .hero .lead { font-size: 1.2rem; }
-            .hero .quote { font-size: 1.15rem; padding: 0 1.5rem; }
-            .achiever-image { width: 110px; height: 110px; }
-            .section-title { font-size: 2.5rem; }
+            .hero-title .line1 { font-size: 4rem; }
+            .hero-title .line2 { font-size: 3rem; }
+            .hero-quote { font-size: 1rem; }
         }
-
         @media (max-width: 576px) {
-            .hero h1 { font-size: 3.2rem; }
-            .hero .lead { font-size: 1.1rem; }
-            .hero .quote { font-size: 1rem; }
-            .btn-glow { padding: 0.8rem 1.8rem; font-size: 1rem; }
-            .achiever-card { padding: 1.8rem; }
+            .hero-title .line1 { font-size: 3rem; }
+            .hero-title .line2 { font-size: 2.2rem; }
         }
+        /* =========================================================
+   FULL MOBILE RESPONSIVE FIX
+   Add this at the END of your current CSS
+========================================================= */
+
+/* Better mobile scrolling */
+html, body {
+    overflow-x: hidden;
+    
+}
+
+
+
+/* ================= HERO ================= */
+
+@media (max-width: 991px) {
+
+    .hero {
+        min-height: auto;
+        padding: 120px 20px 80px;
+        background-attachment: scroll !important;
+    }
+
+    .hero-section {
+        padding: 20px 10px !important;
+    }
+
+    .hero-title span,
+    .hero h1 span {
+        letter-spacing: 4px !important;
+        word-break: break-word;
+    }
+
+    .hero h1 span:first-child {
+        font-size: clamp(2.8rem, 12vw, 4.5rem) !important;
+    }
+
+    .hero h1 span:last-child {
+        font-size: clamp(2rem, 9vw, 3.5rem) !important;
+        letter-spacing: 6px !important;
+    }
+
+    .hero-tagline,
+    .hero-sub {
+        font-size: 1rem !important;
+    }
+
+    .hero-quote {
+        font-size: 1rem !important;
+        line-height: 1.7 !important;
+        padding: 0 10px;
+    }
+
+    .hero-btn {
+        width: 100%;
+        max-width: 320px;
+        text-align: center;
+        padding: 0.9rem 1.2rem;
+    }
+}
+
+/* ================= NAVBAR ================= */
+
+@media (max-width: 991px) {
+
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+
+    .navbar-collapse {
+        background: rgba(10, 15, 35, 0.98);
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 10px;
+    }
+
+    .nav-link {
+        padding: 12px 0 !important;
+        text-align: center;
+    }
+}
+
+/* ================= STATS ================= */
+
+@media (max-width: 768px) {
+
+    .stats {
+        padding: 50px 0;
+    }
+
+    .stat-card {
+        padding: 1.2rem;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+    }
+}
+
+/* ================= SECTION TITLES ================= */
+
+@media (max-width: 768px) {
+
+    .section-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .section-desc {
+        font-size: 0.95rem;
+        padding: 0 10px;
+    }
+}
+
+/* ================= SPOTLIGHT ================= */
+
+@media (max-width: 768px) {
+
+    .spotlight-section {
+        padding: 60px 0;
+    }
+
+    .spotlight-card {
+        padding: 2rem 1.2rem;
+        border-radius: 18px;
+    }
+
+    .spotlight-name {
+        font-size: 1.5rem;
+    }
+
+    .spotlight-highlight {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .spotlight-role {
+        font-size: 0.75rem;
+        line-height: 1.5;
+    }
+
+    .journey-text {
+        max-width: 100%;
+        font-size: 0.92rem;
+        line-height: 1.7;
+        padding: 12px;
+    }
+
+    .metrics {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .metric-box {
+        width: 100%;
+    }
+
+    #spotlight-toggle-button {
+        position: static !important;
+        margin-top: 1rem;
+        width: 100%;
+    }
+}
+
+/* Disable 3D tilt on mobile */
+@media (max-width: 768px) {
+    .spotlight-card {
+        transform: none !important;
+    }
+}
+
+/* ================= ACHIEVER CARDS ================= */
+
+@media (max-width: 768px) {
+
+    .achievers-section {
+        padding: 70px 0;
+    }
+
+    .achiever-card {
+        min-height: auto;
+        padding: 1.4rem;
+        margin: 0 5px;
+    }
+
+    .card-top {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatar-wrap {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .card-name {
+        font-size: 1.1rem;
+    }
+
+    .card-achievement {
+        font-size: 0.9rem;
+    }
+
+    .card-tags {
+        justify-content: center;
+    }
+
+    .card-footer-row {
+        text-align: center;
+    }
+}
+
+/* ================= SLIDER ================= */
+
+@media (max-width: 768px) {
+
+    .slider-nav {
+        margin-top: 1.5rem;
+        gap: 0.6rem;
+    }
+
+    .slider-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+    }
+
+    .slider-dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* ================= COMPANY STRIP ================= */
+
+@media (max-width: 768px) {
+
+    .logo-pill {
+        padding: 0.8rem 1.2rem;
+        margin: 0 0.5rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .logos-inner {
+        animation-duration: 18s;
+    }
+}
+
+/* ================= MODAL ================= */
+
+@media (max-width: 768px) {
+
+    .modal-profile-row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modal-avatar {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .modal-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================= VERY SMALL DEVICES ================= */
+
+@media (max-width: 480px) {
+
+    .hero {
+        padding-top: 100px;
+    }
+
+    .hero h1 span:first-child {
+        font-size: 2.3rem !important;
+    }
+
+    .hero h1 span:last-child {
+        font-size: 1.6rem !important;
+        letter-spacing: 3px !important;
+    }
+
+    .campus-badge,
+    .hero-section div[style*="border-radius: 50px"] {
+        font-size: 0.65rem !important;
+        padding: 8px 14px !important;
+    }
+
+    .hero-sub,
+    .hero-tagline,
+    .section-desc {
+        font-size: 0.9rem !important;
+    }
+
+    .hero-quote {
+        font-size: 0.92rem !important;
+    }
+
+    .spotlight-name {
+        font-size: 1.3rem;
+    }
+
+    .section-title {
+        font-size: 1.7rem;
+    }
+    /* =====================================================
+   DESKTOP LAYOUT RESTORE FIX
+===================================================== */
+
+@media (min-width: 992px) {
+
+    /* Restore navbar spacing */
+    .navbar .container {
+        max-width: 1320px;
+    }
+
+    .navbar-brand {
+        font-size: 1.8rem !important;
+        margin-right: 1rem;
+        transform: none !important;
+    }
+
+    .navbar-nav {
+        align-items: center;
+    }
+
+    .nav-link {
+        padding: 0.5rem 0.9rem !important;
+        font-size: 1rem;
+    }
+
+    /* Restore achiever section scaling */
+    .achievers-section .container {
+        max-width: 1320px;
+    }
+
+    .section-title {
+        font-size: 3rem !important;
+        transform: none !important;
+    }
+
+    .section-desc {
+        font-size: 1.1rem !important;
+    }
+
+    /* Restore proper hero scaling */
+    .hero {
+        min-height: 100vh;
+        padding-top: 120px;
+    }
+
+    /* Prevent desktop zoom feeling */
+    .hero-section {
+        transform: scale(1) !important;
+    }
+
+    /* Restore card sizing */
+    .achiever-card {
+        min-height: 400px;
+    }
+
+    /* Fix slider width */
+    .achievers-track-wrap {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .achievers-track {
+        width: max-content;
+    }
+}
+
+/* =====================================================
+   MOBILE ONLY FIXES
+===================================================== */
+
+@media (max-width: 991px) {
+
+    .navbar-collapse {
+        background: rgba(10,15,35,0.98);
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 10px;
+    }
+
+    .nav-link {
+        text-align: center;
+    }
+
+    .hero-section {
+        padding: 30px 15px !important;
+    }
+
+    .hero h1 span:first-child {
+        font-size: clamp(2.6rem, 12vw, 4rem) !important;
+    }
+
+    .hero h1 span:last-child {
+        font-size: clamp(1.8rem, 9vw, 3rem) !important;
+        letter-spacing: 5px !important;
+    }
+
+    .section-title {
+        font-size: 2rem !important;
+    }
+}
+}
     </style>
 </head>
 <body>
 
-    <!-- Particles Background -->
     <div id="particles-js"></div>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">IT MAGAZINE</a>
+            <a class="navbar-brand" href="/">ZenITh</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -388,32 +898,194 @@
                     <li class="nav-item"><a class="nav-link" href="/magazine/">Articles</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/achievers/">Achievers</a></li>
                     <li class="nav-item"><a class="nav-link" href="/faculty/">Faculty</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Annual Magazine</a></li>
+                    <li class="nav-item">
+    <a class="nav-link" href="/annual-magazine/">
+        Annual Magazine
+    </a>
+</li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- ===== HERO ===== -->
     <section class="hero">
-        <div class="container hero-content" data-aos="fade-up">
-            <h1 class="mb-4">LEGACY OF EXCELLENCE</h1>
-            <p class="lead">
-                Pioneers • Innovators • Pride of IT @ KGEC
-            </p>
-            <p class="sub-lead">
-                Where Vision Becomes Victory
-            </p>
+        <div class="container" data-aos="fade-up">
 
-            <div class="quote" data-aos="fade-up" data-aos-delay="300">
-                Dreams are not those which come while we are sleeping, 
-                but dreams are those which don’t let you sleep.
-                <span class="quote-author">— Dr. A.P.J. Abdul Kalam</span>
-            </div>
+            <!-- Campus badge -->
+            <div 
+    class="hero-section"
+    style="
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+        color: white;
+        overflow: hidden;
+    "
+>
 
-            <a href="#achievers" class="btn btn-glow mt-4" data-aos="zoom-in" data-aos-delay="500">
-                Inspire the Future
-            </a>
+    <!-- Badge -->
+    <div 
+        style="
+            padding: 10px 22px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.04);
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            opacity: 0.85;
+        "
+    >
+        <i class="fas fa-university" style="margin-right: 8px;"></i>
+        Department of Information Technology · KGEC
+    </div>
+
+    <!-- Title -->
+    <h1 
+        style="
+            margin: 0;
+            line-height: 1.1;
+            text-transform: uppercase;
+            font-family: 'Poppins', sans-serif;
+        "
+    >
+        <span 
+            style="
+                display: block;
+                font-size: 5rem;
+                font-weight: 700;
+                letter-spacing: 10px;
+                color: #60a5fa;
+                text-shadow: 0 0 18px rgba(96,165,250,0.35);
+            "
+        >
+            Legacy
+        </span>
+
+        <span 
+            style="
+                display: block;
+                font-size: 4rem;
+                font-weight: 300;
+                letter-spacing: 14px;
+                color: #93c5fd;
+                opacity: 0.95;
+                text-shadow: 0 0 15px rgba(147,197,253,0.25);
+            "
+        >
+            Of Excellence
+        </span>
+    </h1>
+
+    <!-- Divider -->
+    <div 
+        style="
+            width: 100px;
+            height: 1px;
+            margin: 30px auto;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255,255,255,0.9),
+                transparent
+            );
+            box-shadow: 0 0 12px rgba(255,255,255,0.25);
+        "
+    ></div>
+
+    <!-- Tagline -->
+    <p 
+        style="
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            opacity: 0.75;
+            margin-bottom: 10px;
+        "
+    >
+        Innovation • Leadership • Excellence
+    </p>
+
+    <!-- Sub Text -->
+    <p 
+        style="
+            max-width: 700px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            opacity: 0.82;
+            margin-bottom: 45px;
+        "
+    >
+        Celebrating the vision, achievements, and enduring spirit 
+        of the Department of Information Technology at KGEC.
+    </p>
+
+    <!-- Premium Editorial Quote -->
+    <div 
+        style="
+            max-width: 750px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+        "
+    >
+
+        <div 
+            style="
+                width: 60px;
+                height: 1px;
+                margin: 0 auto 20px;
+                background: rgba(255,255,255,0.35);
+            "
+        ></div>
+
+        <p 
+            style="
+                font-size: 1.5rem;
+                font-style: italic;
+                line-height: 1.9;
+                letter-spacing: 1px;
+                opacity: 0.92;
+                margin: 0;
+            "
+        >
+            Where ideas evolve into innovation,  
+            and passion transforms into impact.
+        </p>
+
+        <div 
+            style="
+                margin-top: 18px;
+                letter-spacing: 3px;
+                font-size: 0.78rem;
+                text-transform: uppercase;
+                opacity: 0.6;
+            "
+        >
+            — ZenITh · IT Department · KGEC
+        </div>
+
+        <div 
+            style="
+                width: 60px;
+                height: 1px;
+                margin: 20px auto 0;
+                background: rgba(255,255,255,0.35);
+            "
+        ></div>
+
+    </div>
+
+</div>
+
+            <a href="#achievers" class="hero-btn">Explore Achievers →</a>
+
         </div>
     </section>
 
@@ -421,128 +1093,286 @@
     <section class="stats">
         <div class="container">
             <div class="row g-4 justify-content-center">
-                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="stat-card">
-                        <div class="stat-number">36</div>
-                        <div class="h5 mt-2">GATE AIR</div>
+                <div class="col-lg-4 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-card"><div class="h5 mt-2">Placed Students</div></div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-card"><div class="h5 mt-2">Top Companies</div></div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-card"><div class="h5 mt-2">Pursuing Masters</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SPOTLIGHT ===== -->
+    <section class="spotlight-section">
+        <div class="container text-center">
+            <div style="margin-bottom: 2rem; position: relative;">
+                <div style="color:#00d4ff; font-size:0.8rem; letter-spacing:2px;">⭐ FEATURED</div>
+                <h2 class="section-title">Achiever Spotlight</h2>
+                <p style="color:#bbb;">Celebrating excellence — explore the journeys that define success.</p>
+                <button id="spotlight-toggle-button" class="btn btn-outline-info" style="position:absolute; top:0; right:0;">Show another</button>
+            </div>
+
+            <div class="spotlight-card flex-column animate-in">
+                <div class="spotlight-avatar">
+                    <div class="avatar-circle">
+                        <img id="spotlight-img"
+                             src="{{ url_for('static', filename='achievers_image/Shalini Singh.png') }}"
+                             alt="Shalini Singh"
+                             class="avatar-img">
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="stat-card">
-                        <div class="stat-number">4</div>
-                        <div class="h5 mt-2">IITs</div>
+
+                <div class="spotlight-info mt-3">
+                    <h3 id="spotlight-name" class="spotlight-name">Sabyasachi Saha</h3>
+                    <div id="spotlight-highlight" class="spotlight-highlight">
+                        Entrepreneur, Founder-Director of Techno Exponent, CEO of the Award-Winning Techno Exponent and Bottbuddy
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="stat-card">
-                        <div class="stat-number">1</div>
-                        <div class="h5 mt-2">IIM</div>
+                    <p id="spotlight-batch" class="spotlight-batch">
+                        Ph.D. in AI-ML • Advancing Healthcare Through AI • AI Researcher
+                    </p>
+                    <div id="spotlight-role" class="spotlight-role">
+                        Guest of Honour & Esteemed Speaker at IIT (ISM) Dhanbad FDP on Innovation & Entrepreneurship
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="stat-card">
-                        <div class="stat-number">1</div>
-                        <div class="h5 mt-2">ISI PhD</div>
+                    <div class="card-footer-row" style="margin-top:1rem;">
+                        <a id="spotlight-link" class="card-btn" href="https://www.linkedin.com/in/sabyassaha/" target="_blank" rel="noopener noreferrer">
+                            Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+
+                    <div class="journey-container">
+                        <p class="journey-text">
+                            From mastering <strong>competitive programming</strong> to winning <strong>national-level hackathons</strong>,
+                            Shalini's journey reflects relentless dedication and curiosity.
+                            Today, she contributes to <strong>large-scale infrastructure</strong> — transforming ideas into real-world impact.
+                        </p>
+                    </div>
+
+                    <div class="metrics mt-4">
+                        <div class="metric-box"><div class="metric-value">MTS</div><small>Role</small></div>
+                        <div class="metric-box"><div class="metric-value">8.7</div><small>CGPA</small></div>
+                        <div class="metric-box"><div class="metric-value">2020</div><small>Graduation</small></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Achievers -->
-    <section class="py-5" style="position: relative; z-index: 1;" id="achievers">
-        <div class="container">
-            <h2 class="text-center section-title" data-aos="fade-up">Recent Stars</h2>
+    <!-- ===== ACHIEVERS SLIDER ===== -->
+    <section class="achievers-section" id="achievers">
+        <div class="container" data-aos="fade-up">
+            <div class="section-label">// All Stars</div>
+            <h2 class="section-title">Our Achievers</h2>
+            <p class="section-desc">The brilliant minds who made IT @ KGEC proud.</p>
 
-            <div class="row g-4">
-                <!-- Sarthak Dey -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="achiever-card">
-                        <img src="{{ url_for('static', filename='achievers_image/sarthak_dey.jpeg') }}" 
-                             alt="Sarthak Dey" class="achiever-image"
-                             onerror="this.onerror=null; this.classList.add('fallback'); this.innerHTML='<i class=\"fas fa-user-graduate\"></i>'">
-                        <h4 class="text-center mb-3">Sarthak Dey</h4>
-                        <div class="rank-badge mb-2">GATE AIR 129</div>
-                        <span class="year-badge">IT 2024</span>
-                        <div class="achievement mt-3">
-                            M.Tech AI, IIT Kharagpur
+            <div class="achievers-track-wrap">
+                <div class="achievers-track" id="achieversTrack">
+
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/amiya-karmakar-63a368189/', '_blank')">
+                            <div class="card-header-band gold"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/Amiya-karmakar.png') }}');" onerror="this.textContent='AK'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-gold"><i class="fas fa-star"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Amiya Karmakar</div>
+                                        <div class="card-batch"># 2016–2020</div>
+                                        <div class="card-company"><i class="fab fa-salesforce"></i> Salesforce</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">Principal Swarm/Technical Lead | Tableau from Salesforce | 5x Tableau Certified | 15+ Publications | Journal Reviewer.</p>
+                                <div class="card-tags"><span class="tag">FAANG+</span><span class="tag">Tech Lead</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Swapnil Bhattacharya -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="achiever-card">
-                        <img src="{{ url_for('static', filename='achievers_image/swapneel_image.png') }}" 
-                             alt="Swapnil Bhattacharya" class="achiever-image"
-                             onerror="this.onerror=null; this.classList.add('fallback'); this.innerHTML='<i class=\"fas fa-trophy\"></i>'">
-                        <h4 class="text-center mb-3">Swapnil Bhattacharya</h4>
-                        <div class="rank-badge mb-2 gold-badge">GATE AIR 36</div>
-                        <span class="year-badge">IT 2022</span>
-                        <div class="achievement mt-3">
-                            Cracked in 3rd Year
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/pranayghosh18/', '_blank')">
+                            <div class="card-header-band silver"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/Pranay_ghosh.png') }}');" onerror="this.textContent='PG'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-silver"><i class="fas fa-medal"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Pranay Ghosh</div>
+                                        <div class="card-batch"># 2016–2020</div>
+                                        <div class="card-company"><i class="fab fa-meta"></i> Meta</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">Software Engineer at Meta. Focused on high-performance scalable systems and product engineering.</p>
+                                <div class="card-tags"><span class="tag">FAANG+</span><span class="tag">SDE</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Indranil Majhi -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="achiever-card">
-                        <img src="{{ url_for('static', filename='achievers_image/indranil_majhi.jpg') }}" 
-                             alt="Indranil Majhi" class="achiever-image"
-                             onerror="this.onerror=null; this.classList.add('fallback'); this.innerHTML='<i class=\"fas fa-university\"></i>'">
-                        <h4 class="text-center mb-3">Indranil Majhi</h4>
-                        <span class="year-badge">IT 2025</span>
-                        <div class="achievement mt-3">
-                            IIM Bodh Gaya
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/sohini-ghosh-2020/', '_blank')">
+                            <div class="card-header-band bronze"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/Sohini_ghosh.png') }}');" onerror="this.textContent='SG'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-bronze"><i class="fas fa-award"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Sohini Ghosh</div>
+                                        <div class="card-batch"># 2016–2020</div>
+                                        <div class="card-company"><i class="fab fa-microsoft"></i> Microsoft</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">SWE II @Microsoft | Ex-Myntra | AI Engineer | Cloud Computing | Distributed Systems | MLOps.</p>
+                                <div class="card-tags"><span class="tag">SWE II</span><span class="tag">Microsoft</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Anuj Sarkar -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="achiever-card">
-                        <img src="{{ url_for('static', filename='achievers_image/Anuj_Sarkar.jpg') }}" 
-                             alt="Anuj Sarkar" class="achiever-image"
-                             onerror="this.onerror=null; this.classList.add('fallback'); this.innerHTML='<i class=\"fas fa-cogs\"></i>'">
-                        <h4 class="text-center mb-3">Anuj Sarkar</h4>
-                        <span class="year-badge">IT 2025</span>
-                        <div class="achievement mt-3">
-                            M.Tech, IIT Dhanbad
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/sourav-bandhopadhyay-118335150/', '_blank')">
+                            <div class="card-header-band"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/Sourav_bandopadhyay.png') }}');" onerror="this.textContent='SB'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-default"><i class="fas fa-code"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Sourav Bandhopadhyay</div>
+                                        <div class="card-batch"># 2016–2020</div>
+                                        <div class="card-company"><i class="fas fa-building"></i> Dell Technologies</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">Software Engineer- 2 @ Dell Technologies. Expert in backend infrastructure and reliability engineering.</p>
+                                <div class="card-tags"><span class="tag">SDE II</span><span class="tag">Backend</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Soumyapriya Goswami -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="achiever-card">
-                        <img src="{{ url_for('static', filename='achievers_image/soumyapriya.jpg') }}" 
-                             alt="Soumyapriya Goswami" class="achiever-image"
-                             onerror="this.onerror=null; this.classList.add('fallback'); this.innerHTML='<i class=\"fas fa-brain\"></i>'">
-                        <h4 class="text-center mb-3">Soumyapriya Goswami</h4>
-                        <span class="year-badge">IT 2026</span>
-                        <div class="achievement">
-                            Published "NashDQNSleep" Elsevier Q1 Paper<br>
-                            Created Programming Language eLang<br>
-                            Innovative Python Library QPAC
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/parveenmisra/', '_blank')">
+                            <div class="card-header-band"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/parveen-misra.jpg') }}');" onerror="this.textContent='PM'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-default"><i class="fab fa-amazon"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Parveen Misra</div>
+                                        <div class="card-batch"># 2016–2020</div>
+                                        <div class="card-company"><i class="fab fa-amazon"></i> Amazon</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">Software Engineer at Amazon. Driving innovation in retail logistics and cloud services.</p>
+                                <div class="card-tags"><span class="tag">SWE 2</span><span class="tag">FAANG</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Subhranil Mostafi -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-                    <div class="achiever-card">
-                        <img src="{{ url_for('static', filename='achievers_image/Shubhraneel.png') }}" 
-                             alt="Subhranil Mostafi" class="achiever-image"
-                             onerror="this.onerror=null; this.classList.add('fallback'); this.innerHTML='<i class=\"fas fa-flask\"></i>'">
-                        <h4 class="text-center mb-3">Subhranil Mostafi</h4>
-                        <span class="year-badge">IT 2018 | 2020</span>
-                        <div class="achievement">
-                            INSPIRE Fellow<br>
-                            PhD, ISI Kolkata
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/ayush-agarwal-01/', '_blank')">
+                            <div class="card-header-band"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/Ayush_agarwal.png') }}');" onerror="this.textContent='AA'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-default"><i class="fas fa-rocket"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Ayush Agarwal</div>
+                                        <div class="card-batch"># 2020–2024</div>
+                                        <div class="card-company"><i class="fas fa-building"></i> Medable</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">SDE-3 at Medable, Inc | Ex-TagMango (YC W20) | Building AI Agents for automated testing.</p>
+                                <div class="card-tags"><span class="tag">SDE 3</span><span class="tag">AI</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="achiever-slide">
+                        <div class="achiever-card" onclick="window.open('https://www.linkedin.com/in/soumyapriya-goswami/', '_blank')">
+                            <div class="card-header-band"></div>
+                            <div class="card-body-inner">
+                                <div class="card-top">
+                                    <div class="avatar-wrap">
+                                        <div class="avatar" style="background-image:url('{{ url_for('static', filename='achievers_image/Soumyapriya_goswami.png') }}');" onerror="this.textContent='SG'; this.style.background='#2c3e50';"></div>
+                                        <div class="badge-medal badge-default"><i class="fas fa-brain"></i></div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="card-name">Soumyapriya Goswami</div>
+                                        <div class="card-batch"># 2023–2027</div>
+                                        <div class="card-company"><i class="fas fa-university"></i> IEEE SMC KGEC</div>
+                                    </div>
+                                </div>
+                                <p class="card-achievement">AI Researcher | Best Paper Awardee in IEEE ICRCICN | Founder and Chair of IEEE SMC Student Branch Chapter.</p>
+                                <div class="card-tags"><span class="tag">Research</span><span class="tag">IEEE</span></div>
+                                <div class="card-footer-row"><span class="card-btn">Connect on LinkedIn &nbsp;<i class="fab fa-linkedin"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
+
+            <div class="slider-nav">
+                <div class="slider-btn" id="achieversPrev"><i class="fas fa-arrow-left"></i></div>
+                <div class="slider-dots" id="achieversDots"></div>
+                <div class="slider-btn" id="achieversNext"><i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPANIES STRIP -->
+    <section class="companies-section">
+        <div class="container mb-4" data-aos="fade-up">
+            <div class="section-label">// Where They Work</div>
+            <h2 class="section-title" style="font-size:2rem;">Our Alumni Work At</h2>
+        </div>
+        <div class="logos-track">
+            <div class="logos-inner">
+                <div class="logo-pill"><i class="fab fa-google"></i>Google</div>
+                <div class="logo-pill"><i class="fab fa-microsoft"></i>Microsoft</div>
+                <div class="logo-pill"><i class="fab fa-amazon"></i>Amazon</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Adobe</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Flipkart</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Infosys</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>TCS</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Wipro</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Razorpay</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Zepto</div>
+                <div class="logo-pill"><i class="fas fa-university"></i>IIT Bombay</div>
+                <div class="logo-pill"><i class="fas fa-university"></i>IIT Delhi</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>JPMorgan</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Goldman Sachs</div>
+                <!-- Duplicate for seamless loop -->
+                <div class="logo-pill"><i class="fab fa-google"></i>Google</div>
+                <div class="logo-pill"><i class="fab fa-microsoft"></i>Microsoft</div>
+                <div class="logo-pill"><i class="fab fa-amazon"></i>Amazon</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Adobe</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Flipkart</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Infosys</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>TCS</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Wipro</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Razorpay</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Zepto</div>
+                <div class="logo-pill"><i class="fas fa-university"></i>IIT Bombay</div>
+                <div class="logo-pill"><i class="fas fa-university"></i>IIT Delhi</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>JPMorgan</div>
+                <div class="logo-pill"><i class="fas fa-building"></i>Goldman Sachs</div>
             </div>
         </div>
     </section>
@@ -555,17 +1385,10 @@
     <script>
         AOS.init({ duration: 1100, once: true, easing: 'ease-out-cubic' });
 
-        // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // Particles
         particlesJS('particles-js', {
             particles: {
                 number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -583,6 +1406,148 @@
             },
             retina_detect: true
         });
+
+        /* Spotlight toggle */
+        const spotlightProfiles = [
+            {
+                name: 'Shalini Singh',
+                img: "{{ url_for('static', filename='achievers_image/Shalini Singh.png') }}",
+                alt: 'Shalini Singh',
+                highlight: "From KGEC Labs to Oracle's Engineering Team",
+                batch: '# Class of 2020 • Batch 2016–2020',
+                role: '🏢 Member of Technical Staff • Oracle, Bangalore',
+                linkedin: 'https://www.linkedin.com/in/shalini-singh28/',
+                toggleText: 'Show Sabyasachi Saha'
+            },
+            {
+                name: 'Sabyasachi Saha',
+                img: "{{ url_for('static', filename='achievers_image/Sabyasachi_Saha.png') }}",
+                alt: 'Sabyasachi Saha',
+                highlight: 'Entrepreneur, Founder-Director of Techno Exponent, CEO of the Award-Winning Techno Exponent and Bottbuddy',
+                batch: 'Ph.D. in AI-ML • Advancing Healthcare Through AI • AI Researcher',
+                role: 'Guest of Honour & Esteemed Speaker at IIT (ISM) Dhanbad FDP on Innovation & Entrepreneurship',
+                linkedin: 'https://www.linkedin.com/in/sabyassaha/',
+                toggleText: 'Show Shalini Singh'
+            }
+        ];
+
+        let spotlightIndex = 0;
+        const spotlightImg    = document.getElementById('spotlight-img');
+        const spotlightName   = document.getElementById('spotlight-name');
+        const spotlightHighlight = document.getElementById('spotlight-highlight');
+        const spotlightBatch  = document.getElementById('spotlight-batch');
+        const spotlightRole   = document.getElementById('spotlight-role');
+        const spotlightToggleBtn = document.getElementById('spotlight-toggle-button');
+        const spotlightLink   = document.getElementById('spotlight-link');
+
+        function loadSpotlight(index) {
+            const profile = spotlightProfiles[index];
+            spotlightImg.src        = profile.img;
+            spotlightImg.alt        = profile.alt;
+            spotlightName.textContent = profile.name;
+            spotlightHighlight.textContent = profile.highlight;
+            spotlightBatch.textContent = profile.batch;
+            spotlightRole.textContent  = profile.role;
+            spotlightLink.href         = profile.linkedin || '#';
+            spotlightToggleBtn.textContent = profile.toggleText;
+            spotlightImg.onerror = function() {
+                this.onerror = null;
+                const initials = profile.name.split(' ').map(n => n[0]).join('');
+                this.src = 'https://via.placeholder.com/120/0066ff/ffffff?text=' + encodeURIComponent(initials);
+            };
+        }
+
+        spotlightToggleBtn.addEventListener('click', function() {
+            spotlightIndex = 1 - spotlightIndex;
+            loadSpotlight(spotlightIndex);
+        });
+
+        loadSpotlight(0);
+
+        /* Spotlight tilt */
+       if (window.innerWidth > 768) {
+    document.addEventListener("mousemove", (e) => {
+        const card = document.querySelector(".spotlight-card");
+        if (!card) return;
+
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+
+        card.style.transform =
+            `rotateX(${(y - 0.5) * 8}deg) rotateY(${(x - 0.5) * -8}deg)`;
+    });
+}
+        /* Achievers slider */
+        (function() {
+            const track  = document.getElementById('achieversTrack');
+            const slides = Array.from(track.children);
+            const total  = slides.length;
+            let cur = 0;
+            const dotsEl  = document.getElementById('achieversDots');
+            const prevBtn = document.getElementById('achieversPrev');
+            const nextBtn = document.getElementById('achieversNext');
+
+            function visCount() { return window.innerWidth >= 992 ? 3 : window.innerWidth >= 640 ? 2 : 1; }
+            function pages()    { return Math.ceil(total / visCount()); }
+
+            function setSlideSizes() {
+                const vc = visCount();
+                const containerW = track.parentElement.offsetWidth;
+                const gapTotal = (vc - 1) * 18;
+                const w = Math.floor((containerW - gapTotal) / vc);
+                slides.forEach(s => {
+                    s.style.minWidth   = w + 'px';
+                    s.style.maxWidth   = w + 'px';
+                    s.style.marginRight = '18px';
+                });
+            }
+
+            function buildDots() {
+                dotsEl.innerHTML = '';
+                for (let i = 0; i < pages(); i++) {
+                    const d = document.createElement('div');
+                    d.className = 'slider-dot' + (i === cur ? ' active' : '');
+                    d.addEventListener('click', () => goTo(i));
+                    dotsEl.appendChild(d);
+                }
+            }
+
+            function update() {
+                setSlideSizes();
+                const vc = visCount();
+                const w = slides[0].offsetWidth + 18;
+                track.style.transform = `translateX(-${cur * vc * w}px)`;
+                dotsEl.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+                prevBtn.classList.toggle('disabled', cur === 0);
+                nextBtn.classList.toggle('disabled', cur >= pages() - 1);
+            }
+
+            function goTo(i) { cur = Math.max(0, Math.min(i, pages() - 1)); buildDots(); update(); }
+            prevBtn.addEventListener('click', () => goTo(cur - 1));
+            nextBtn.addEventListener('click', () => goTo(cur + 1));
+
+            let sx = 0;
+            track.parentElement.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+            track.parentElement.addEventListener('touchend',   e => {
+                const d = sx - e.changedTouches[0].clientX;
+                if (Math.abs(d) > 50) goTo(d > 0 ? cur + 1 : cur - 1);
+            });
+            window.addEventListener('resize', () => { cur = Math.min(cur, pages() - 1); buildDots(); update(); });
+            setTimeout(() => { buildDots(); update(); }, 50);
+        })();
     </script>
+
+    <!-- MODAL -->
+    <div class="modal fade achiever-modal" id="achieverModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Achiever Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

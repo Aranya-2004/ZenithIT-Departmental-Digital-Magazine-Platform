@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Magazine Flipbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="{{ url_for('static', filename='magazine/page-flip.browser.js') }}"></script>
+
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.12);
+  --gold-border: rgba(201,168,76,0.22);
+  --ink: #0d0c0a;
+  --smoke: #161410;
+  --ash: #1e1c17;
+  --mist: rgba(255,255,255,0.05);
+  --paper: #f5f0e8;
+  --text-muted: rgba(212,207,196,0.45);
+  --text-dim: rgba(212,207,196,0.65);
+  --chrome: rgba(13,12,10,0.9);
+  --chrome-border: rgba(201,168,76,0.18);
+  --bar-h: 56px;
+  --ctrl-h: 64px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  color:#d4cfc4;
+}
+
+/* ── AMBIENT BACKGROUND ── */
+#bg{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%,rgba(201,168,76,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 70% at 5% 95%,rgba(201,168,76,0.04) 0%,transparent 55%),
+    linear-gradient(165deg,#0d0c0a 0%,#161410 45%,#0d0c0a 100%);
+}
+
+/* ── TOP BAR ── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--bar-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+  background:var(--chrome);
+  border-bottom:0.5px solid var(--chrome-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+#logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:300;letter-spacing:5px;
+  color:var(--gold);text-transform:uppercase;
+}
+#logo em{font-style:italic;font-weight:400;color:var(--gold-light);}
+
+#page-info{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:300;letter-spacing:1px;
+  color:var(--gold-light);
+  position:absolute;left:50%;transform:translateX(-50%);
+  pointer-events:none;
+}
+
+#topbar-actions{display:flex;align-items:center;gap:8px;}
+
+.tbtn{
+  width:34px;height:34px;
+  background:transparent;
+  border:0.5px solid var(--gold-border);
+  border-radius:50%;
+  color:var(--text-dim);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+  transition:all 0.2s ease;
+}
+.tbtn:hover,.tbtn.on{
+  border-color:var(--gold);color:var(--gold);
+  background:var(--gold-dim);
+}
+
+/* ── STAGE ── */
+#stage{
+  position:fixed;
+  top:var(--bar-h);left:0;right:0;
+  bottom:var(--ctrl-h);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* ── BOOK ── */
+#book-wrap{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  transform-origin:center center;
+}
+
+#book{
+  box-shadow:
+    0 60px 140px rgba(0,0,0,0.9),
+    0 0 0 1px rgba(201,168,76,0.06);
+}
+
+.page{background:#fff;overflow:hidden;position:relative;}
+.page img{
+  width:100%;height:100%;
+  object-fit:contain;display:block;
+  background:#fff;
+}
+
+/* ── SIDE NAV (desktop) ── */
+.side-arrow{
+  position:fixed;top:50%;transform:translateY(-50%);
+  z-index:190;
+  width:48px;height:48px;
+  background:rgba(13,12,10,0.8);
+  border:0.5px solid var(--gold-border);
+  border-radius:50%;
+  color:var(--gold);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  transition:all 0.25s ease;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.side-arrow:hover{
+  background:var(--gold-dim);
+  border-color:var(--gold);
+  box-shadow:0 0 24px rgba(201,168,76,0.2);
+  transform:translateY(-50%) scale(1.08);
+}
+.side-arrow:disabled{opacity:0.15;cursor:default;pointer-events:none;transform:translateY(-50%);}
+#a-prev{left:14px;}
+#a-next{right:14px;}
+
+/* ── BOTTOM CONTROLS ── */
+#ctrlbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  height:var(--ctrl-h);
+  background:var(--chrome);
+  border-top:0.5px solid var(--chrome-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  display:flex;align-items:center;gap:10px;
+  padding:0 14px;
+}
+
+.cbtns{display:flex;align-items:center;gap:4px;}
+.cbtn{
+  width:32px;height:32px;
+  background:transparent;border:none;
+  color:var(--text-dim);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;border-radius:8px;
+  transition:all 0.18s ease;
+}
+.cbtn:hover{color:var(--gold);background:var(--gold-dim);}
+
+/* Progress track */
+#track{
+  flex:1;height:3px;
+  background:rgba(201,168,76,0.1);
+  border-radius:2px;cursor:pointer;
+  position:relative;
+}
+#track-fill{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  box-shadow:0 0 6px rgba(201,168,76,0.4);
+  transition:width 0.35s ease;
+  pointer-events:none;
+}
+#track-thumb{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:var(--gold);
+  opacity:0;transition:opacity 0.15s,left 0.35s ease;
+  box-shadow:0 0 8px rgba(201,168,76,0.7);
+  pointer-events:none;
+}
+#track:hover #track-thumb{opacity:1;}
+
+/* Page counter pill */
+#pg-counter{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;color:var(--text-muted);
+  letter-spacing:1px;white-space:nowrap;
+  display:flex;align-items:center;gap:4px;
+}
+#pg-num{color:var(--gold-light);font-size:15px;}
+
+/* ── THUMBNAIL DRAWER ── */
+#thumbs{
+  position:fixed;
+  bottom:var(--ctrl-h);left:0;right:0;
+  height:min(42vw,180px);
+  z-index:195;
+  background:rgba(13,12,10,0.95);
+  border-top:0.5px solid var(--chrome-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  display:flex;align-items:center;
+  gap:10px;
+  padding:12px 16px;
+  overflow-x:auto;overflow-y:hidden;
+  transform:translateY(100%);
+  transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+#thumbs.open{transform:translateY(0);}
+#thumbs::-webkit-scrollbar{height:2px;}
+#thumbs::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:1px;}
+
+.th{
+  flex-shrink:0;
+  height:calc(min(42vw,180px) - 24px);
+  aspect-ratio:0.707;
+  border:0.5px solid rgba(201,168,76,0.12);
+  border-radius:3px;overflow:hidden;
+  cursor:pointer;
+  position:relative;
+  transition:all 0.18s ease;
+  scroll-snap-align:start;
+}
+.th:hover{border-color:rgba(201,168,76,0.5);transform:scale(1.04);}
+.th.on{border-color:var(--gold);box-shadow:0 0 10px rgba(201,168,76,0.3);}
+.th img{width:100%;height:100%;object-fit:cover;display:block;}
+.th-n{
+  position:absolute;bottom:3px;right:5px;
+  font-size:9px;color:rgba(255,255,255,0.5);
+  font-family:'Cormorant Garamond',serif;
+  background:rgba(0,0,0,0.4);
+  padding:1px 4px;border-radius:2px;
+}
+
+/* ── ZOOM ── */
+#book-wrap.zoomed{cursor:grab;}
+#book-wrap.zoomed:active{cursor:grabbing;}
+
+/* ── FULLSCREEN MODAL ── */
+#fsview{
+  display:none;
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.97);
+  align-items:center;justify-content:center;
+}
+#fsview.on{display:flex;}
+#fsview img{max-width:100%;max-height:100%;object-fit:contain;}
+#fs-x{
+  position:fixed;top:16px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:0.5px solid rgba(255,255,255,0.15);
+  color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;z-index:501;
+}
+#fs-x:hover{background:rgba(255,255,255,0.18);}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;
+  bottom:calc(var(--ctrl-h) + 12px);
+  left:50%;transform:translateX(-50%) translateY(12px);
+  background:rgba(201,168,76,0.12);
+  border:0.5px solid rgba(201,168,76,0.4);
+  color:var(--gold-light);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  padding:7px 18px;border-radius:3px;
+  opacity:0;transition:all 0.28s ease;
+  pointer-events:none;z-index:400;
+  backdrop-filter:blur(8px);
+  white-space:nowrap;
+}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── LOADER ── */
+#loader{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  transition:opacity 0.7s ease;
+}
+#loader.fade{opacity:0;pointer-events:none;}
+#ld-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:300;letter-spacing:8px;
+  color:var(--gold);text-transform:uppercase;
+}
+#ld-sub{font-size:10px;letter-spacing:4px;color:rgba(201,168,76,0.35);text-transform:uppercase;}
+#ld-bar{width:160px;height:1px;background:rgba(201,168,76,0.12);overflow:hidden;border-radius:1px;}
+#ld-shine{
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform:translateX(-100%);
+  animation:shine 1.2s ease infinite;
+}
+@keyframes shine{to{transform:translateX(100%);}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  #logo{font-size:16px;letter-spacing:3px;}
+  .side-arrow{display:none!important;}
+  #ctrlbar{gap:6px;padding:0 10px;}
+}
+.page::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(
+        110deg,
+        transparent 20%,
+        rgba(255,255,255,0.06) 45%,
+        transparent 70%
+    );
+
+    pointer-events:none;
+}
+/* Cover reveal animation on load */
+@keyframes coverReveal{
+  from{opacity:0;transform:perspective(800px) rotateY(-8deg) translateX(-20px);}
+  to{opacity:1;transform:perspective(800px) rotateY(0deg) translateX(0);}
+}
+#book-wrap.reveal{animation:coverReveal 0.9s cubic-bezier(0.4,0,0.2,1) forwards;}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div id="ld-title">Magazine</div>
+  <div id="ld-sub">Opening Edition</div>
+  <div id="ld-bar"><div id="ld-shine"></div></div>
+</div>
+
+<div id="bg"></div>
+
+<!-- TOP BAR -->
+<header id="topbar">
+  <div id="logo">ZENITH</div>
+  <div id="page-info">— / —</div>
+  <div id="topbar-actions">
+    <button class="tbtn" id="btn-zoom" title="Zoom">⊕</button>
+    <button class="tbtn" id="btn-thumbs" title="All pages">⊞</button>
+    <button class="tbtn" id="btn-fs" title="Fullscreen view">⛶</button>
+  </div>
+</header>
+
+<!-- STAGE -->
+<div id="stage">
+  <button class="side-arrow" id="a-prev">&#8249;</button>
+
+  <div id="book-wrap">
+    <div id="book">
+      {% for page in pages %}
+      <div class="page">
+        <img src="{{ url_for('static', filename='pages/' + page) }}" loading="lazy" alt="Page {{ loop.index }}">
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <button class="side-arrow" id="a-next">&#8250;</button>
+</div>
+
+<!-- THUMBNAIL DRAWER -->
+<div id="thumbs">
+  {% for thumb in thumbs %}
+  <div class="th" data-p="{{ loop.index0 }}" onclick="gotoPage({{ loop.index0 }})">
+    <img src="{{ url_for('static', filename='thumbs/' + thumb) }}" loading="lazy" alt="Page {{ loop.index }}">
+    <span class="th-n">{{ loop.index }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- BOTTOM CONTROLS -->
+<div id="ctrlbar">
+  <div class="cbtns">
+    <button class="cbtn" id="btn-first" title="First page">⟪</button>
+    <button class="cbtn" id="btn-prev">&#8249;</button>
+  </div>
+
+  <div id="track">
+    <div id="track-fill" style="width:0%"></div>
+    <div id="track-thumb" style="left:0%"></div>
+  </div>
+
+  <div class="cbtns">
+    <button class="cbtn" id="btn-next">&#8250;</button>
+    <button class="cbtn" id="btn-last" title="Last page">⟫</button>
+  </div>
+
+  <div id="pg-counter">
+    <span id="pg-num">1</span>
+    <span>/</span>
+    <span>{{ total }}</span>
+  </div>
+</div>
+
+<!-- FULLSCREEN -->
+<div id="fsview">
+  <button id="fs-x">✕</button>
+  <img id="fs-img" src="" alt="">
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+const TOTAL = {{ total }};
+const PDF_ASPECT = {{ aspect }};
+
+let pf = null;
+let curPage = 0;
+let zoom = 1;
+let thumbsOpen = false;
+
+// ── SIZING ─────────────────────────────────────────────────
+function calcSize() {
+  const sw = window.innerWidth;
+  const sh = window.innerHeight;
+  const BAR = 56; const CTRL = 64;
+  const stageH = sh - BAR - CTRL;
+  const stageW = sw;
+  const isMobile = sw < 600;
+
+  // On mobile we want essentially full-width single pages, PageFlip portrait mode
+  // On desktop we do a dual spread
+  if (isMobile) {
+    // Show single page, nearly full screen
+    const padX = 8; const padY = 16;
+    let pw = stageW - padX;
+    let ph = pw / PDF_ASPECT;
+    if (ph > stageH - padY) { ph = stageH - padY; pw = ph * PDF_ASPECT; }
+    pw = Math.max(pw, 160); ph = Math.max(ph, 240);
+    return { w: Math.floor(pw), h: Math.floor(ph), portrait: true };
+  } else {
+    // Dual spread: 2 pages side by side
+    const padX = 120; const padY = 32;
+    let pw = (stageW - padX) / 2;
+    let ph = pw / PDF_ASPECT;
+    if (ph > stageH - padY) { ph = stageH - padY; pw = ph * PDF_ASPECT; }
+    pw = Math.max(pw, 200); ph = Math.max(ph, 280);
+    return { w: Math.floor(pw), h: Math.floor(ph), portrait: false };
+  }
+}
+
+// ── INIT ───────────────────────────────────────────────────
+function init() {
+  const bookEl = document.getElementById('book');
+  const { w, h, portrait } = calcSize();
+
+  pf = new St.PageFlip(bookEl, {
+    width: w, height: h,
+    size: 'fixed',
+    minWidth: 140, maxWidth: 1200,
+    minHeight: 200, maxHeight: 1600,
+    showCover: true,
+    mobileScrollSupport: false,
+    usePortrait: portrait,
+    autoSize: false,
+    maxShadowOpacity: 0.55,
+    flippingTime: 650,
+    startPage: 0,
+    swipeDistance: portrait ? 20 : 40,
+    clickEventForward: true,
+    useMouseEvents: true,
+    startZIndex: 0,
+    drawShadow: true,
+  });
+
+  pf.loadFromHTML(document.querySelectorAll('.page'));
+  pf.on('flip', e => updateUI(e.data));
+  pf.on('changeState', () => flipSound());
+
+  // Cover reveal
+  document.getElementById('book-wrap').classList.add('reveal');
+
+  // Hide loader
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('fade');
+    setTimeout(() => document.getElementById('loader').remove(), 800);
+  }, 800);
+
+  updateUI(0);
+}
+window.addEventListener('load', init);
+
+// ── UI UPDATE ──────────────────────────────────────────────
+function updateUI(p) {
+  curPage = p;
+  const pct = TOTAL > 1 ? (p / (TOTAL - 1)) * 100 : 0;
+
+  document.getElementById('page-info').textContent = `${p + 1} / ${TOTAL}`;
+  document.getElementById('pg-num').textContent = p + 1;
+  document.getElementById('track-fill').style.width = pct + '%';
+  document.getElementById('track-thumb').style.left = pct + '%';
+
+  // Thumbs
+  document.querySelectorAll('.th').forEach((el, i) => {
+    el.classList.toggle('on', i === p || i === p + 1);
+  });
+  const active = document.querySelector(`.th[data-p="${p}"]`);
+  if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+// ── NAV ────────────────────────────────────────────────────
+function gotoPage(n) { pf && pf.flip(n); }
+
+document.getElementById('a-prev').onclick = () => pf && pf.flipPrev();
+document.getElementById('a-next').onclick = () => pf && pf.flipNext();
+document.getElementById('btn-prev').onclick = () => pf && pf.flipPrev();
+document.getElementById('btn-next').onclick = () => pf && pf.flipNext();
+document.getElementById('btn-first').onclick = () => gotoPage(0);
+document.getElementById('btn-last').onclick = () => gotoPage(TOTAL - 1);
+
+// ── PROGRESS ──────────────────────────────────────────────
+document.getElementById('track').addEventListener('click', e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const p = Math.round(((e.clientX - r.left) / r.width) * (TOTAL - 1));
+  gotoPage(Math.max(0, Math.min(TOTAL - 1, p)));
+});
+
+// ── THUMBNAILS ────────────────────────────────────────────
+document.getElementById('btn-thumbs').addEventListener('click', () => {
+  thumbsOpen = !thumbsOpen;
+  document.getElementById('thumbs').classList.toggle('open', thumbsOpen);
+  document.getElementById('btn-thumbs').classList.toggle('on', thumbsOpen);
+  // Adjust stage bottom on desktop
+  const stage = document.getElementById('stage');
+  const th = document.getElementById('thumbs');
+  if (thumbsOpen) {
+    const h = th.getBoundingClientRect().height || Math.min(window.innerWidth * 0.42, 180);
+    stage.style.bottom = (64 + h) + 'px';
+  } else {
+    stage.style.bottom = '64px';
+  }
+});
+
+// ── ZOOM ──────────────────────────────────────────────────
+document.getElementById('btn-zoom').addEventListener('click', () => {
+  zoom = zoom === 1 ? 1.4 : 1;
+  document.getElementById('book-wrap').style.transform = `scale(${zoom})`;
+  document.getElementById('book-wrap').classList.toggle('zoomed', zoom !== 1);
+  document.getElementById('btn-zoom').classList.toggle('on', zoom !== 1);
+  toast(zoom > 1 ? 'Zoomed In' : 'Normal View');
+});
+
+// ── FULLSCREEN VIEW ────────────────────────────────────────
+document.getElementById('btn-fs').addEventListener('click', () => {
+  const imgs = document.querySelectorAll('.page img');
+  const src = imgs[curPage]?.src;
+  if (src) {
+    document.getElementById('fs-img').src = src;
+    document.getElementById('fsview').classList.add('on');
+  }
+});
+document.getElementById('fs-x').onclick = () => document.getElementById('fsview').classList.remove('on');
+document.getElementById('fsview').addEventListener('click', e => {
+  if (e.target === e.currentTarget) document.getElementById('fsview').classList.remove('on');
+});
+
+// ── KEYBOARD ──────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') pf && pf.flipPrev();
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') pf && pf.flipNext();
+  if (e.key === 'f' || e.key === 'F') document.getElementById('btn-fs').click();
+  if (e.key === 'z' || e.key === 'Z') document.getElementById('btn-zoom').click();
+  if (e.key === 'Escape') {
+    document.getElementById('fsview').classList.remove('on');
+    if (thumbsOpen) document.getElementById('btn-thumbs').click();
+  }
+});
+
+// ── SWIPE ─────────────────────────────────────────────────
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e => {
+  tx = e.touches[0].clientX;
+  ty = e.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  // Only horizontal swipes that aren't in the thumb drawer
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    if (e.target.closest('#thumbs')) return;
+    if (dx < 0) pf && pf.flipNext();
+    else pf && pf.flipPrev();
+  }
+}, { passive: true });
+
+// ── TOAST ─────────────────────────────────────────────────
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 1800);
+}
+
+// ── FLIP SOUND ────────────────────────────────────────────
+let actx;
+function flipSound() {
+  try {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = actx.createBuffer(1, actx.sampleRate * 0.06, actx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) {
+      d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (d.length * 0.28));
+    }
+    const src = actx.createBufferSource();
+    const g = actx.createGain();
+    const f = actx.createBiquadFilter();
+    f.type = 'bandpass'; f.frequency.value = 2400; f.Q.value = 0.9;
+    g.gain.setValueAtTime(0.15, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.08);
+    src.buffer = buf;
+    src.connect(f); f.connect(g); g.connect(actx.destination);
+    src.start();
+  } catch(e) {}
+}
+document.addEventListener('click', () => {
+  if (!actx) { actx = new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); }
+}, { once: true });
+
+// ── RESIZE ────────────────────────────────────────────────
+let resizeId;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeId);
+  resizeId = setTimeout(() => {
+    if (!pf) return;
+    const { w, h } = calcSize();
+    try { pf.updateState({ width: w, height: h }); pf.update(); } catch(e) {}
+  }, 180);
+});
+</script>
+</body>
+</html>
